@@ -7,22 +7,21 @@ import com.company.models.Store;
 import com.company.repository.StoreDAO;
 import com.company.service.StoreService;
 import com.company.utils.impl.SequenceGenerator;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
+@Service
 public class StoreServiceImpl implements StoreService {
 
-    private final StoreDAO storeDao;
-
-    public StoreServiceImpl(StoreDAO storeDao){
-        this.storeDao = storeDao;
-    }
-
+    @Autowired
+    private StoreDAO storeDao;
 
     @Override
-    public void add(StoreDto storeDTO){
-        Store store = StoreMapper.STORE_MAPPER.toStore(storeDTO);
+    public void add(StoreDto storeDto){
+        Store store = StoreMapper.STORE_MAPPER.toStore(storeDto);
         store.setId(SequenceGenerator.getFreeStoreId(storeDao.readAll()));
         storeDao.add(store);
     }
@@ -34,8 +33,8 @@ public class StoreServiceImpl implements StoreService {
     }
 
     @Override
-    public void update(StoreDto storeDTO) throws WrongIdException{
-        Store updatedStore = StoreMapper.STORE_MAPPER.toStore(storeDTO);
+    public void update(StoreDto storeDto) throws WrongIdException{
+        Store updatedStore = StoreMapper.STORE_MAPPER.toStore(storeDto);
         Store store = storeDao.getById(updatedStore.getId());
         if (store == null)
             throw new WrongIdException(updatedStore.getId());

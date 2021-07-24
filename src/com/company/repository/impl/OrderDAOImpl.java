@@ -2,17 +2,17 @@ package com.company.repository.impl;
 
 import com.company.models.Order;
 import com.company.repository.OrderDAO;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+@Repository
 public class OrderDAOImpl implements OrderDAO {
 
-    List<Order> orderList;
-
-    public OrderDAOImpl(List<Order> orderList){
-        this.orderList = orderList;
-    }
+    List<Order> orderList = new ArrayList<>();
 
     @Override
     public Collection<Order> readAll() {

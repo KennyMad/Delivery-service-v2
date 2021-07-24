@@ -2,17 +2,17 @@ package com.company.repository.impl;
 
 import com.company.models.Store;
 import com.company.repository.StoreDAO;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+@Repository
 public class StoreDAOImpl implements StoreDAO {
 
-    private List<Store> storeList;
-
-    public StoreDAOImpl(List<Store> storeList){
-        this.storeList = storeList;
-    }
+    private List<Store> storeList = new ArrayList<>();
 
     @Override
     public Collection readAll() {

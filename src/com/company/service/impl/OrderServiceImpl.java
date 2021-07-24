@@ -9,23 +9,23 @@ import com.company.repository.CustomerDAO;
 import com.company.repository.OrderDAO;
 import com.company.service.OrderService;
 import com.company.utils.impl.SequenceGenerator;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.stream.Collectors;
 
+@Service
 public class OrderServiceImpl implements OrderService {
 
-    final CustomerDAO customerDAO;
-    final OrderDAO orderDAO;
-
-    public OrderServiceImpl(CustomerDAO customerDAO, OrderDAO orderDAO){
-        this.customerDAO = customerDAO;
-        this.orderDAO = orderDAO;
-    }
+    @Autowired
+    private CustomerDAO customerDAO;
+    @Autowired
+    private OrderDAO orderDAO;
 
     @Override
-    public void add(OrderDto orderDTO) throws WrongIdException{
-        Order order = OrderMapper.ORDER_MAPPER.toOrder(orderDTO);
+    public void add(OrderDto orderDto) throws WrongIdException{
+        Order order = OrderMapper.ORDER_MAPPER.toOrder(orderDto);
         order.setId(SequenceGenerator.getFreeOrderId(orderDAO.readAll()));
 
         Customer customer = customerDAO.getById(order.getCustomerId());

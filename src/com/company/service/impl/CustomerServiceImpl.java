@@ -7,21 +7,21 @@ import com.company.mapper.CustomerMapper;
 import com.company.repository.CustomerDAO;
 import com.company.service.CustomerService;
 import com.company.utils.impl.SequenceGenerator;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.stream.Collectors;
 
+@Service
 public class CustomerServiceImpl implements CustomerService {
 
-    private final CustomerDAO customerDao;
-
-    public CustomerServiceImpl(CustomerDAO customerDao){
-        this.customerDao = customerDao;
-    }
+    @Autowired
+    private CustomerDAO customerDao;
 
     @Override
-    public void add(CustomerDto customerDTO){
-        Customer customer = CustomerMapper.CUSTOMER_MAPPER.toCustomer(customerDTO);
+    public void add(CustomerDto customerDto){
+        Customer customer = CustomerMapper.CUSTOMER_MAPPER.toCustomer(customerDto);
         customer.setId(SequenceGenerator.getFreeCustomerId(customerDao.readAll()));
         customerDao.add(customer);
     }
@@ -33,8 +33,8 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public void update(CustomerDto customerDTO) throws WrongIdException{
-        Customer updatedCustomer = CustomerMapper.CUSTOMER_MAPPER.toCustomer(customerDTO);
+    public void update(CustomerDto customerDto) throws WrongIdException{
+        Customer updatedCustomer = CustomerMapper.CUSTOMER_MAPPER.toCustomer(customerDto);
         Customer customer = customerDao.getById(updatedCustomer.getId());
 
         if (customer == null)

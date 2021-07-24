@@ -12,23 +12,23 @@ import com.company.repository.ProductDAO;
 import com.company.repository.StoreDAO;
 import com.company.service.ProductService;
 import com.company.utils.impl.SequenceGenerator;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
+@Service
 public class ProductServiceImpl implements ProductService {
 
-    final private ProductDAO productDAO;
-    final private StoreDAO storeDAO;
-
-    public ProductServiceImpl (ProductDAO productDAO, StoreDAO storeDAO){
-        this.productDAO = productDAO;
-        this.storeDAO = storeDAO;
-    }
+    @Autowired
+    private ProductDAO productDAO;
+    @Autowired
+    private StoreDAO storeDAO;
 
     @Override
-    public void add(ProductDto productDTO) throws WrongIdException{
-        Product product = ProductMapper.PRODUCT_MAPPER.toProduct(productDTO);
+    public void add(ProductDto productDto) throws WrongIdException{
+        Product product = ProductMapper.PRODUCT_MAPPER.toProduct(productDto);
         product.setId(SequenceGenerator.getFreeProductId(productDAO.readAll()));
 
         Store store = storeDAO.getById(product.getStoreId());
@@ -53,8 +53,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void update(ProductDto productDTO) throws WrongIdException{
-        Product updatedProduct = ProductMapper.PRODUCT_MAPPER.toProduct(productDTO);
+    public void update(ProductDto productDto) throws WrongIdException{
+        Product updatedProduct = ProductMapper.PRODUCT_MAPPER.toProduct(productDto);
         Product product = productDAO.getById(updatedProduct.getId());
         if (product == null)
             throw new WrongIdException(updatedProduct.getId());

@@ -2,17 +2,17 @@ package com.company.repository.impl;
 
 import com.company.models.Customer;
 import com.company.repository.CustomerDAO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 
 import java.util.*;
 
+@Repository
 public class CustomerDAOImpl implements CustomerDAO {
 
-    private List<Customer> customerList;
-
-    public CustomerDAOImpl(List<Customer> customerList){
-        this.customerList = customerList;
-    }
+    private List<Customer> customerList = new ArrayList<>();
 
     @Override
     public Collection readAll() {
