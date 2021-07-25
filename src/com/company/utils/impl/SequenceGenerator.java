@@ -28,7 +28,7 @@ public class SequenceGenerator {
         if (ids.size() == 0)
             return 0;
         int id = ids.stream().max(Integer::compare).get();
-        return id++;
+        return ++id;
     }
 
 }
