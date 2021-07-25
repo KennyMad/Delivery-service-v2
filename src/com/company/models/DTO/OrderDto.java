@@ -8,15 +8,15 @@ public class OrderDto {
 
     private int customerId;
 
-    private OrderAddressDto orderAddressDTO;
+    private OrderAddressDto orderAddressDto;
 
     private HashMap<Integer, Integer> productIdCountMap;
 
     public OrderDto(){}
 
-    public OrderDto(int customerId, OrderAddressDto orderAddressDTO, HashMap<Integer, Integer> productIdCountMap) {
+    public OrderDto(int customerId, OrderAddressDto orderAddressDto, HashMap<Integer, Integer> productIdCountMap) {
         this.customerId = customerId;
-        this.orderAddressDTO = orderAddressDTO;
+        this.orderAddressDto = orderAddressDto;
         this.productIdCountMap = productIdCountMap;
     }
 
@@ -36,12 +36,12 @@ public class OrderDto {
         this.customerId = customerId;
     }
 
-    public OrderAddressDto getOrderAddressDTO() {
-        return orderAddressDTO;
+    public OrderAddressDto getOrderAddressDto() {
+        return orderAddressDto;
     }
 
-    public void setOrderAddressDTO(OrderAddressDto orderAddressDTO) {
-        this.orderAddressDTO = orderAddressDTO;
+    public void setOrderAddressDto(OrderAddressDto orderAddressDto) {
+        this.orderAddressDto = orderAddressDto;
     }
 
     public HashMap<Integer, Integer> getProductIdCountMap() {
@@ -57,7 +57,7 @@ public class OrderDto {
         return "OrderDTO{" +
                 "id=" + id +
                 ", customerId=" + customerId +
-                ", orderAddressDTO=" + orderAddressDTO +
+                ", orderAddressDTO=" + orderAddressDto +
                 ", productIdCountMap=" + productIdCountMap +
                 '}';
     }

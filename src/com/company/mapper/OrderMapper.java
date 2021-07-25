@@ -11,9 +11,9 @@ public interface OrderMapper {
 
     OrderMapper ORDER_MAPPER = Mappers.getMapper(OrderMapper.class);
 
-    @Mapping(source = "orderAddress", target = "orderAddressDTO")
+    @Mapping(source = "orderAddress", target = "orderAddressDto")
     OrderDto toOrderDto(Order order);
 
-    @Mapping(source = "orderAddressDTO", target = "orderAddress")
-    Order toOrder(OrderDto orderDTO);
+    @Mapping(source = "orderAddressDto", target = "orderAddress")
+    Order toOrder(OrderDto orderDto);
 }

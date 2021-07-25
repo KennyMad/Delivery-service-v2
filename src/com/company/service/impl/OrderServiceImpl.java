@@ -9,6 +9,7 @@ import com.company.repository.CustomerDAO;
 import com.company.repository.OrderDAO;
 import com.company.service.OrderService;
 import com.company.utils.impl.SequenceGenerator;
+import com.sun.org.apache.xpath.internal.operations.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,6 +34,29 @@ public class OrderServiceImpl implements OrderService {
         if (customer == null)
             throw new WrongIdException(order.getCustomerId());
         orderDAO.add(order);
+    }
+
+    @Override
+    public void delete(int id) throws WrongIdException {
+        Order order = orderDAO.remove(id);
+        if (order == null)
+            throw new WrongIdException(id);
+    }
+
+    @Override
+    public void update(OrderDto orderDto) throws WrongIdException {
+        Order order = orderDAO.getById(orderDto.getId());
+        if (order == null)
+            throw new WrongIdException(orderDto.getId());
+
+        Customer customer = customerDAO.getById(orderDto.getCustomerId());
+        if (customer == null)
+            throw new WrongIdException(orderDto.getCustomerId());
+
+        Order updatedOrder = OrderMapper.ORDER_MAPPER.toOrder(orderDto);
+        order.setOrderAddress(updatedOrder.getOrderAddress());
+        order.setCustomerId(updatedOrder.getCustomerId());
+        order.setProductIdCountMap(updatedOrder.getProductIdCountMap());
     }
 
     @Override

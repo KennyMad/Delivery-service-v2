@@ -40,7 +40,7 @@ public class OrderAddressDto {
 
     @Override
     public String toString() {
-        return "OrderAddressDTO{" +
+        return "OrderAddressDto{" +
                 "house='" + house + '\'' +
                 ", street='" + street + '\'' +
                 ", city='" + city + '\'' +
