@@ -13,7 +13,9 @@ public class StoreDto {
 
     private String description;
 
-    public StoreDto(){}
+    public StoreDto(){
+        productListIds = new ArrayList<>();
+    }
 
     public StoreDto(String name, String description) {
         this.name = name;
