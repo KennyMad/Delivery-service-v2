@@ -36,4 +36,10 @@ public class ProductDAOImpl implements ProductDAO {
     public void add(Product product) {
         productList.add(product);
     }
+
+    @Override
+    public void update(Product product){
+        remove(product.getId());
+        add(product);
+    }
 }

@@ -45,18 +45,14 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void update(OrderDto orderDto) throws WrongIdException {
-        Order order = orderDAO.getById(orderDto.getId());
-        if (order == null)
+        if (orderDAO.getById(orderDto.getId()) == null)
             throw new WrongIdException(orderDto.getId());
 
-        Customer customer = customerDAO.getById(orderDto.getCustomerId());
-        if (customer == null)
+        if (customerDAO.getById(orderDto.getCustomerId()) == null)
             throw new WrongIdException(orderDto.getCustomerId());
 
         Order updatedOrder = OrderMapper.ORDER_MAPPER.toOrder(orderDto);
-        order.setOrderAddress(updatedOrder.getOrderAddress());
-        order.setCustomerId(updatedOrder.getCustomerId());
-        order.setProductIdCountMap(updatedOrder.getProductIdCountMap());
+        orderDAO.update(updatedOrder);
     }
 
     @Override

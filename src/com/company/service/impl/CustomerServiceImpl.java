@@ -35,13 +35,11 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public void update(CustomerDto customerDto) throws WrongIdException{
         Customer updatedCustomer = CustomerMapper.CUSTOMER_MAPPER.toCustomer(customerDto);
-        Customer customer = customerDao.getById(updatedCustomer.getId());
 
-        if (customer == null)
+        if (customerDao.getById(updatedCustomer.getId()) == null)
             throw new WrongIdException(updatedCustomer.getId());
 
-        customer.setName(updatedCustomer.getName());
-        customer.setAdditionalInformation(updatedCustomer.getAdditionalInformation());
+        customerDao.update(updatedCustomer);
     }
 
     @Override

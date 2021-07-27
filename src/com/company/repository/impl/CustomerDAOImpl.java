@@ -36,4 +36,10 @@ public class CustomerDAOImpl implements CustomerDAO {
     public void add(Customer customer) {
         customerList.add(customer);
     }
+
+    @Override
+    public void update(Customer customer) {
+        remove(customer.getId());
+        add(customer);
+    }
 }

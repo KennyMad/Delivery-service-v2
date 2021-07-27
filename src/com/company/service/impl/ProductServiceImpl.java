@@ -55,15 +55,10 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public void update(ProductDto productDto) throws WrongIdException{
         Product updatedProduct = ProductMapper.PRODUCT_MAPPER.toProduct(productDto);
-        Product product = productDAO.getById(updatedProduct.getId());
-        if (product == null)
+        if (productDAO.getById(updatedProduct.getId()) == null)
             throw new WrongIdException(updatedProduct.getId());
 
-        product.setName(updatedProduct.getName());
-        product.setDescription(updatedProduct.getDescription());
-        product.setAmount(updatedProduct.getAmount());
-        product.setPrice(updatedProduct.getPrice());
-        product.setCategories(updatedProduct.getCategories());
+        productDAO.update(updatedProduct);
     }
 
     @Override

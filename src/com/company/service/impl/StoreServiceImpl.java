@@ -35,11 +35,10 @@ public class StoreServiceImpl implements StoreService {
     @Override
     public void update(StoreDto storeDto) throws WrongIdException{
         Store updatedStore = StoreMapper.STORE_MAPPER.toStore(storeDto);
-        Store store = storeDao.getById(updatedStore.getId());
-        if (store == null)
+        if (storeDao.getById(updatedStore.getId()) == null)
             throw new WrongIdException(updatedStore.getId());
-        store.setName(updatedStore.getName());
-        store.setDescription(updatedStore.getDescription());
+
+        storeDao.update(updatedStore);
     }
 
     @Override

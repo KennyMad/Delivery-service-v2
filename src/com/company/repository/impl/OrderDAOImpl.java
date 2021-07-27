@@ -36,4 +36,10 @@ public class OrderDAOImpl implements OrderDAO {
     public void add(Order order) {
         orderList.add(order);
     }
+
+    @Override
+    public void update(Order order){
+        remove(order.getId());
+        add(order);
+    }
 }

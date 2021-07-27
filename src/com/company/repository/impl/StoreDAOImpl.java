@@ -36,4 +36,10 @@ public class StoreDAOImpl implements StoreDAO {
     public void add(Store store) {
         storeList.add(store);
     }
+
+    @Override
+    public void update(Store store){
+        remove(store.getId());
+        add(store);
+    }
 }
