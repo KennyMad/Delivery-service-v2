@@ -57,7 +57,7 @@ public class CustomerController {
             return new ResponseEntity<>(HttpStatus.OK);
         }
         catch (WrongIdException exception){
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(exception.getMessage(),HttpStatus.NOT_FOUND);
         }
     }
 
