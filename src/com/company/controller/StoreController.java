@@ -16,12 +16,8 @@ import java.util.stream.Collectors;
 @RequestMapping("store")
 public class StoreController {
 
-    private final StoreService storeService;
-
     @Autowired
-    public StoreController (StoreService storeService){
-        this.storeService = storeService;
-    }
+    private StoreService storeService;
 
     @PostMapping
     public ResponseEntity<?> create(@RequestBody StoreDto storeDto){

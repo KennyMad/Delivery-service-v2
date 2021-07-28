@@ -15,12 +15,8 @@ import java.util.stream.Collectors;
 @RequestMapping("order")
 public class OrderController {
 
-    private final OrderService orderService;
-
     @Autowired
-    public OrderController (OrderService orderService){
-        this.orderService = orderService;
-    }
+    private OrderService orderService;
 
     @PostMapping
     public ResponseEntity<?> create(@RequestBody OrderDto orderDto){

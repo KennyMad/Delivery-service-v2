@@ -15,12 +15,8 @@ import java.util.stream.Collectors;
 @RequestMapping("customer")
 public class CustomerController {
 
-    private final CustomerService customerService;
-
     @Autowired
-    public CustomerController (CustomerService customerService){
-        this.customerService = customerService;
-    }
+    private CustomerService customerService;
 
     @PostMapping
     public ResponseEntity<?> create(@RequestBody CustomerDto customerDto){
