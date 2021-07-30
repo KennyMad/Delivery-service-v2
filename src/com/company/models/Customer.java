@@ -1,49 +1,41 @@
 package com.company.models;
 
-public class Customer implements Cloneable{
+import javax.persistence.*;
 
+@Table (name = "customers")
+@Entity
+public class Customer {
+
+    @Id
     private int id;
 
-    private String name;
+    @Column(name = "customer_name")
+    private String customerName;
 
+    @Column(name = "additional_information")
     private String additionalInformation;
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setAdditionalInformation(String additionalInformation) {
-        this.additionalInformation = additionalInformation;
-    }
 
     public int getId() {
         return id;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public String getName() {
-        return name;
+        return customerName;
+    }
+
+    public void setName(String customerName) {
+        this.customerName = customerName;
     }
 
     public String getAdditionalInformation() {
         return additionalInformation;
     }
 
-    public Customer clone() throws CloneNotSupportedException{
-        return (Customer) super.clone();
-    }
-
-    public Customer(){}
-
-    @Override
-    public String toString() {
-        return "Customer{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", additionalInformation='" + additionalInformation + '\'' +
-                '}';
+    public void setAdditionalInformation(String additionalInformation) {
+        this.additionalInformation = additionalInformation;
     }
 }

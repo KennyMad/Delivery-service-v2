@@ -34,7 +34,7 @@ public class ProductServiceImpl implements ProductService {
         Store store = storeDAO.getById(product.getStoreId());
         if (store == null)
             throw new WrongIdException(product.getStoreId());
-        store.getProductListIds().add(product.getId());
+        store.getProductList().add(product);
 
         productDAO.add(product);
     }
@@ -49,7 +49,7 @@ public class ProductServiceImpl implements ProductService {
         Store store = storeDAO.getById(product.getStoreId());
         if (store == null)
             throw new WrongIdException(product.getStoreId());
-        store.getProductListIds().remove(productId);
+        store.getProductList().remove(getProductList().stream().filter(p -> p.getId() == productId).findFirst());
     }
 
     @Override
@@ -156,7 +156,7 @@ public class ProductServiceImpl implements ProductService {
             throw new WrongIdException(storeId);
 
         List<Product> productList = new ArrayList<>();
-        for (int id: store.getProductListIds())
+        for (int id: store.getProductList().stream().map(Product::getId).collect(Collectors.toList()))
             productList.add(productDAO.getById(id));
         return productList.stream()
                 .map(ProductMapper.PRODUCT_MAPPER::toProductDto)

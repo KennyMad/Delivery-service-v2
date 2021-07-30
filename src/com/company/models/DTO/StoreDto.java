@@ -7,32 +7,32 @@ public class StoreDto {
 
     private int id;
 
-    private List<Integer> productListIds;
+    private List<ProductDto> productDtoList;
 
     private String name;
 
     private String description;
 
     public StoreDto(){
-        productListIds = new ArrayList<>();
+        productDtoList = new ArrayList<>();
     }
 
     public StoreDto(String name, String description) {
         this.name = name;
         this.description = description;
-        this.productListIds = new ArrayList<>();
+        this.productDtoList = new ArrayList<>();
     }
 
     public StoreDto(int id, String name, String description) {
         this.id = id;
         this.name = name;
         this.description = description;
-        this.productListIds = new ArrayList<>();
+        this.productDtoList = new ArrayList<>();
     }
 
-    public StoreDto(int id, List<Integer> productListIds, String name, String description) {
+    public StoreDto(int id, List<ProductDto> productDtoList, String name, String description) {
         this.id = id;
-        this.productListIds = productListIds;
+        this.productDtoList = productDtoList;
         this.name = name;
         this.description = description;
     }
@@ -45,12 +45,12 @@ public class StoreDto {
         this.id = id;
     }
 
-    public List<Integer> getProductListIds() {
-        return productListIds;
+    public List<ProductDto> getProductDtoList() {
+        return productDtoList;
     }
 
-    public void setProductListIds(List<Integer> productListIds) {
-        this.productListIds = productListIds;
+    public void setProductDtoList(List<ProductDto> productDtoList) {
+        this.productDtoList = productDtoList;
     }
 
     public String getName() {
@@ -71,9 +71,9 @@ public class StoreDto {
 
     @Override
     public String toString() {
-        return "StoreDTO{" +
+        return "StoreDto{" +
                 "id=" + id +
-                ", productListIds=" + productListIds +
+                ", productDtoList=" + productDtoList +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 '}';

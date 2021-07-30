@@ -1,12 +1,18 @@
 package com.company.models;
 
+import javax.persistence.*;
 import java.util.List;
 
+@Entity
+@Table(name = "stores")
 public class Store implements Cloneable{
 
+    @Id
     private int id;
 
-    private List<Integer> productListIds;
+    @OneToMany(orphanRemoval = true)
+    @JoinColumn(name = "store_id")
+    private List<Product> productList;
 
     private String name;
 
@@ -16,8 +22,8 @@ public class Store implements Cloneable{
         return id;
     }
 
-    public List<Integer> getProductListIds() {
-        return productListIds;
+    public List<Product> getProductList() {
+        return productList;
     }
 
     public String getName() {
@@ -32,8 +38,8 @@ public class Store implements Cloneable{
         this.id = id;
     }
 
-    public void setProductListIds(List<Integer> productListIds) {
-        this.productListIds = productListIds;
+    public void setProductList(List<Product> productList) {
+        this.productList = productList;
     }
 
     public void setName(String name) {
@@ -52,15 +58,10 @@ public class Store implements Cloneable{
 
     @Override
     public String toString() {
-
-        StringBuilder productList = new StringBuilder();
-
-        this.productListIds.forEach(id -> productList.append(id).append(" "));
-
         return "Store{" +
                 "id=" + id +
-                ", productList=[" + productList +
-                "], name='" + name + '\'' +
+                ", productList=" + productList +
+                ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 '}';
     }

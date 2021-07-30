@@ -1,11 +1,16 @@
 package com.company.models;
 
+import javax.persistence.*;
 import java.util.List;
 
+@Entity
+@Table(name = "products")
 public class Product implements Cloneable{
 
+    @Id
     private int id;
 
+    @Column(name = "store_id")
     private int storeId;
 
     private String name;
@@ -16,6 +21,9 @@ public class Product implements Cloneable{
 
     private Double price;
 
+    @Column
+    @Enumerated
+    @ElementCollection(targetClass = ProductCategory.class)
     List<ProductCategory> categories;
 
     public int getId() {
