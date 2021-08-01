@@ -1,8 +1,6 @@
 package com.company.config;
 
-import com.company.models.Customer;
-import com.company.models.Product;
-import com.company.models.Store;
+import com.company.models.*;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -44,6 +42,8 @@ public class Config {
         configuration.addAnnotatedClass(Customer.class);
         configuration.addAnnotatedClass(Product.class);
         configuration.addAnnotatedClass(Store.class);
+        configuration.addAnnotatedClass(Order.class);
+        configuration.addAnnotatedClass(OrderAddress.class);
         return configuration.buildSessionFactory();
     }
 

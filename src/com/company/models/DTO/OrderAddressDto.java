@@ -2,6 +2,8 @@ package com.company.models.DTO;
 
 public class OrderAddressDto {
 
+    private int id;
+
     private String house;
     private String street;
     private String city;
@@ -12,6 +14,14 @@ public class OrderAddressDto {
         this.house = house;
         this.street = street;
         this.city = city;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public String getHouse() {
@@ -41,7 +51,8 @@ public class OrderAddressDto {
     @Override
     public String toString() {
         return "OrderAddressDto{" +
-                "house='" + house + '\'' +
+                "id=" + id +
+                ", house='" + house + '\'' +
                 ", street='" + street + '\'' +
                 ", city='" + city + '\'' +
                 '}';
