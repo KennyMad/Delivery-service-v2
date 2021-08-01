@@ -1,6 +1,6 @@
 package com.company.exception;
 
-public class InvalidAttributeException extends Exception{
+public class InvalidAttributeException extends RuntimeException{
 
     private final String attribute;
 

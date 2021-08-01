@@ -32,6 +32,8 @@ public class OrderDaoImpl implements OrderDao {
     @Override
     public Order remove(int id) {
         Order removedOrder = getById(id);
+        if (removedOrder == null)
+            return null;
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
         session.delete(removedOrder);

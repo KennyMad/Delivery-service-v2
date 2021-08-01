@@ -1,5 +1,6 @@
 package com.company.controller;
 
+import com.company.annotations.ProductExceptionHandler;
 import com.company.exception.WrongIdException;
 import com.company.models.DTO.ProductDto;
 import com.company.service.ProductService;
@@ -13,6 +14,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("product")
+@ProductExceptionHandler
 public class ProductController {
 
     @Autowired
@@ -20,13 +22,7 @@ public class ProductController {
 
     @PostMapping
     public ResponseEntity<?> create(@RequestBody ProductDto productDto){
-        try {
-            return new ResponseEntity<>(productService.add(productDto),HttpStatus.CREATED);
-        }
-        catch (WrongIdException exception){
-            return new ResponseEntity<>(exception.getMessage(),HttpStatus.NOT_FOUND);
-        }
-
+        return new ResponseEntity<>(productService.add(productDto),HttpStatus.CREATED);
     }
 
     @GetMapping
@@ -42,23 +38,13 @@ public class ProductController {
 
     @PutMapping
     public ResponseEntity<?> update(@RequestBody ProductDto productDto){
-        try {
-            return new ResponseEntity<>(productService.update(productDto),HttpStatus.OK);
-        }
-        catch (WrongIdException exception){
-            return new ResponseEntity<>(exception.getMessage(), HttpStatus.NOT_FOUND);
-        }
+        return new ResponseEntity<>(productService.update(productDto),HttpStatus.OK);
     }
 
     @DeleteMapping
     public ResponseEntity<?> delete(@RequestParam int id){
-        try {
-            productService.delete(id);
-            return new ResponseEntity<>(HttpStatus.OK);
-        }
-        catch (WrongIdException exception){
-            return new ResponseEntity<>(exception.getMessage(), HttpStatus.NOT_FOUND);
-        }
+        productService.delete(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }

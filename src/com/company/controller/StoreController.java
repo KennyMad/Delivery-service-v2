@@ -1,5 +1,6 @@
 package com.company.controller;
 
+import com.company.annotations.StoreExceptionHandler;
 import com.company.exception.WrongIdException;
 import com.company.models.DTO.StoreDto;
 import com.company.service.StoreService;
@@ -14,6 +15,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("store")
+@StoreExceptionHandler
 public class StoreController {
 
     @Autowired
@@ -38,23 +40,13 @@ public class StoreController {
 
     @PutMapping
     public ResponseEntity<?> update(@RequestBody StoreDto storeDto){
-        try {
-            return new ResponseEntity<>(storeService.update(storeDto),HttpStatus.OK);
-        }
-        catch (WrongIdException exception){
-            return new ResponseEntity<>(exception.getMessage(),HttpStatus.NOT_FOUND);
-        }
+        return new ResponseEntity<>(storeService.update(storeDto),HttpStatus.OK);
     }
 
     @DeleteMapping
     public ResponseEntity<?> delete(@RequestParam int id){
-        try {
-            storeService.delete(id);
-            return new ResponseEntity<>(HttpStatus.OK);
-        }
-        catch (WrongIdException exception){
-            return new ResponseEntity<>(exception.getMessage(),HttpStatus.NOT_FOUND);
-        }
+        storeService.delete(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }

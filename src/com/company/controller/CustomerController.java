@@ -1,5 +1,6 @@
 package com.company.controller;
 
+import com.company.annotations.CustomerExceptionHandler;
 import com.company.exception.WrongIdException;
 import com.company.models.DTO.CustomerDto;
 import com.company.service.CustomerService;
@@ -13,6 +14,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("customer")
+@CustomerExceptionHandler
 public class CustomerController {
 
     @Autowired
@@ -36,23 +38,13 @@ public class CustomerController {
 
     @PutMapping
     public ResponseEntity<?> update(@RequestBody CustomerDto customerDto){
-        try {
-            return new ResponseEntity<>(customerService.update(customerDto),HttpStatus.OK);
-        }
-        catch (WrongIdException exception){
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        return new ResponseEntity<>(customerService.update(customerDto),HttpStatus.OK);
     }
 
     @DeleteMapping
     public ResponseEntity<?> delete(@RequestParam int id){
-        try {
-            customerService.delete(id);
-            return new ResponseEntity<>(HttpStatus.OK);
-        }
-        catch (WrongIdException exception){
-            return new ResponseEntity<>(exception.getMessage(),HttpStatus.NOT_FOUND);
-        }
+        customerService.delete(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }

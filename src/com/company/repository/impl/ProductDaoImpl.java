@@ -30,6 +30,8 @@ public class ProductDaoImpl implements ProductDao {
     @Override
     public Product remove(int id) {
         Product removedProduct = getById(id);
+        if (removedProduct == null)
+            return null;
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
         session.delete(removedProduct);

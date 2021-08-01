@@ -30,6 +30,8 @@ public class StoreDaoImpl implements StoreDao {
     @Override
     public Store remove(int id) {
         Store removedStore = getById(id);
+        if (removedStore == null)
+            return null;
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
         session.delete(removedStore);

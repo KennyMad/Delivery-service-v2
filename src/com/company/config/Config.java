@@ -17,6 +17,7 @@ import java.util.Properties;
 @ComponentScan("com.company.service")
 @ComponentScan("com.company.repository")
 @ComponentScan("com.company.controller")
+@ComponentScan("com.company.exception.handler")
 @PropertySource("resources/config.properties")
 public class Config {
 

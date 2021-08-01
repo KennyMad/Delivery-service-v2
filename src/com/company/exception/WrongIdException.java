@@ -1,6 +1,6 @@
 package com.company.exception;
 
-public class WrongIdException extends Exception{
+public class WrongIdException extends RuntimeException{
 
     private final int id;
 

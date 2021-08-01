@@ -30,6 +30,8 @@ public class CustomerDaoImpl implements CustomerDao {
     @Override
     public Customer remove(int id) {
         Customer removedCustomer = getById(id);
+        if (removedCustomer == null)
+            return null;
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
         session.delete(removedCustomer);

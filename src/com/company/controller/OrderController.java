@@ -1,5 +1,6 @@
 package com.company.controller;
 
+import com.company.annotations.OrderExceptionHandler;
 import com.company.exception.WrongIdException;
 import com.company.models.DTO.OrderDto;
 import com.company.service.OrderService;
@@ -13,6 +14,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("order")
+@OrderExceptionHandler
 public class OrderController {
 
     @Autowired
@@ -20,12 +22,7 @@ public class OrderController {
 
     @PostMapping
     public ResponseEntity<?> create(@RequestBody OrderDto orderDto){
-        try {
-            return new ResponseEntity<>(orderService.add(orderDto),HttpStatus.CREATED);
-        }
-        catch (WrongIdException exception){
-            return new ResponseEntity<>(exception.getMessage(), HttpStatus.NOT_FOUND);
-        }
+        return new ResponseEntity<>(orderService.add(orderDto),HttpStatus.CREATED);
     }
 
     @GetMapping
@@ -42,22 +39,12 @@ public class OrderController {
 
     @PutMapping
     public ResponseEntity<?> update(@RequestBody OrderDto orderDto){
-        try {
-            return new ResponseEntity<>(orderService.update(orderDto),HttpStatus.OK);
-        }
-        catch (WrongIdException exception){
-            return new ResponseEntity<>(exception.getMessage(),HttpStatus.NOT_FOUND);
-        }
+        return new ResponseEntity<>(orderService.update(orderDto),HttpStatus.OK);
     }
 
     @DeleteMapping
     public ResponseEntity<?> delete(@RequestParam int id){
-        try {
-            orderService.delete(id);
-            return new ResponseEntity<>(HttpStatus.OK);
-        }
-        catch (WrongIdException exception){
-            return new ResponseEntity<>(exception.getMessage(),HttpStatus.NOT_FOUND);
-        }
+        orderService.delete(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
