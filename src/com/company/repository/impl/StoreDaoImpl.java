@@ -1,19 +1,18 @@
 package com.company.repository.impl;
 
 import com.company.models.Store;
-import com.company.repository.StoreDAO;
+import com.company.repository.StoreDao;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
 import java.util.Collection;
 import java.util.List;
 
 @Repository
-public class StoreDaoImpl implements StoreDAO {
+public class StoreDaoImpl implements StoreDao {
 
     @Autowired
     SessionFactory sessionFactory;
@@ -30,29 +29,32 @@ public class StoreDaoImpl implements StoreDAO {
 
     @Override
     public Store remove(int id) {
+        Store removedStore = getById(id);
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
         session.delete("id",id);
         transaction.commit();
         session.close();
-        return null;
+        return removedStore;
     }
 
     @Override
-    public void add(Store store) {
+    public Store add(Store store) {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
         session.save(store);
         transaction.commit();
         session.close();
+        return getById(store.getId());
     }
 
     @Override
-    public void update(Store store) {
+    public Store update(Store store) {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
         session.update(store);
         transaction.commit();
         session.close();
+        return getById(store.getId());
     }
 }

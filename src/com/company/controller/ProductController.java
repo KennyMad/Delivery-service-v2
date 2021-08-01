@@ -21,8 +21,7 @@ public class ProductController {
     @PostMapping
     public ResponseEntity<?> create(@RequestBody ProductDto productDto){
         try {
-            productService.add(productDto);
-            return new ResponseEntity<>(HttpStatus.CREATED);
+            return new ResponseEntity<>(productService.add(productDto),HttpStatus.CREATED);
         }
         catch (WrongIdException exception){
             return new ResponseEntity<>(exception.getMessage(),HttpStatus.NOT_FOUND);
@@ -44,8 +43,7 @@ public class ProductController {
     @PutMapping
     public ResponseEntity<?> update(@RequestBody ProductDto productDto){
         try {
-            productService.update(productDto);
-            return new ResponseEntity<>(HttpStatus.OK);
+            return new ResponseEntity<>(productService.update(productDto),HttpStatus.OK);
         }
         catch (WrongIdException exception){
             return new ResponseEntity<>(exception.getMessage(), HttpStatus.NOT_FOUND);

@@ -21,8 +21,7 @@ public class OrderController {
     @PostMapping
     public ResponseEntity<?> create(@RequestBody OrderDto orderDto){
         try {
-            orderService.add(orderDto);
-            return new ResponseEntity<>(HttpStatus.CREATED);
+            return new ResponseEntity<>(orderService.add(orderDto),HttpStatus.CREATED);
         }
         catch (WrongIdException exception){
             return new ResponseEntity<>(exception.getMessage(), HttpStatus.NOT_FOUND);
@@ -44,8 +43,7 @@ public class OrderController {
     @PutMapping
     public ResponseEntity<?> update(@RequestBody OrderDto orderDto){
         try {
-            orderService.update(orderDto);
-            return new ResponseEntity<>(HttpStatus.OK);
+            return new ResponseEntity<>(orderService.update(orderDto),HttpStatus.OK);
         }
         catch (WrongIdException exception){
             return new ResponseEntity<>(exception.getMessage(),HttpStatus.NOT_FOUND);

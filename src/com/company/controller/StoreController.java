@@ -21,8 +21,7 @@ public class StoreController {
 
     @PostMapping
     public ResponseEntity<?> create(@RequestBody StoreDto storeDto){
-        storeService.add(storeDto);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return new ResponseEntity<>(storeService.add(storeDto),HttpStatus.CREATED);
     }
 
     @GetMapping
@@ -40,8 +39,7 @@ public class StoreController {
     @PutMapping
     public ResponseEntity<?> update(@RequestBody StoreDto storeDto){
         try {
-            storeService.update(storeDto);
-            return new ResponseEntity<>(HttpStatus.OK);
+            return new ResponseEntity<>(storeService.update(storeDto),HttpStatus.OK);
         }
         catch (WrongIdException exception){
             return new ResponseEntity<>(exception.getMessage(),HttpStatus.NOT_FOUND);

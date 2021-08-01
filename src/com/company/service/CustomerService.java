@@ -7,11 +7,11 @@ import java.util.Collection;
 
 public interface CustomerService {
 
-    void add(CustomerDto customerDTO);
+    CustomerDto add(CustomerDto customerDTO);
 
     void delete(int id) throws WrongIdException;
 
-    void update(CustomerDto customerDTO) throws WrongIdException;
+    CustomerDto update(CustomerDto customerDTO) throws WrongIdException;
 
     Collection<CustomerDto> getCustomerList();
 

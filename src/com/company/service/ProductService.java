@@ -10,11 +10,11 @@ import java.util.Map;
 
 public interface ProductService {
 
-    void add(ProductDto productDTO) throws WrongIdException;
+    ProductDto add(ProductDto productDTO) throws WrongIdException;
 
     void delete(int productId) throws WrongIdException;
 
-    void update(ProductDto productDTO) throws WrongIdException;
+    ProductDto update(ProductDto productDTO) throws WrongIdException;
 
     Collection<ProductDto> getProductList();
 

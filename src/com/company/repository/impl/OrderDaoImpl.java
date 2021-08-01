@@ -1,7 +1,7 @@
 package com.company.repository.impl;
 
 import com.company.models.Order;
-import com.company.repository.OrderDAO;
+import com.company.repository.OrderDao;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -14,7 +14,7 @@ import java.util.List;
 
 @Repository
 @Primary
-public class OrderDaoImpl implements OrderDAO {
+public class OrderDaoImpl implements OrderDao {
 
     @Autowired
     SessionFactory sessionFactory;
@@ -31,31 +31,34 @@ public class OrderDaoImpl implements OrderDAO {
 
     @Override
     public Order remove(int id) {
+        Order removedOrder = getById(id);
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
         session.delete("id",id);
         transaction.commit();
         session.close();
-        return null;
+        return removedOrder;
     }
 
     @Override
-    public void add(Order order) {
+    public Order add(Order order) {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
         session.save(order.getOrderAddress());
         session.save(order);
         transaction.commit();
         session.close();
+        return getById(order.getId());
     }
 
     @Override
-    public void update(Order order) {
+    public Order update(Order order) {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
         session.update(order.getOrderAddress());
         session.update(order);
         transaction.commit();
         session.close();
+        return getById(order.getId());
     }
 }

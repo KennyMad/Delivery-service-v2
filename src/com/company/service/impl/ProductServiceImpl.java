@@ -8,8 +8,8 @@ import com.company.models.Product;
 import com.company.models.ProductAttribute;
 import com.company.models.ProductCategory;
 import com.company.models.Store;
-import com.company.repository.ProductDAO;
-import com.company.repository.StoreDAO;
+import com.company.repository.ProductDao;
+import com.company.repository.StoreDao;
 import com.company.service.ProductService;
 import com.company.utils.impl.SequenceGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,12 +22,12 @@ import java.util.stream.Collectors;
 public class ProductServiceImpl implements ProductService {
 
     @Autowired
-    private ProductDAO productDAO;
+    private ProductDao productDAO;
     @Autowired
-    private StoreDAO storeDAO;
+    private StoreDao storeDAO;
 
     @Override
-    public void add(ProductDto productDto) throws WrongIdException{
+    public ProductDto add(ProductDto productDto) throws WrongIdException{
         Product product = ProductMapper.PRODUCT_MAPPER.toProduct(productDto);
         product.setId(SequenceGenerator.getFreeProductId(productDAO.readAll()));
 
@@ -36,7 +36,7 @@ public class ProductServiceImpl implements ProductService {
             throw new WrongIdException(product.getStoreId());
         store.getProductList().add(product);
 
-        productDAO.add(product);
+        return ProductMapper.PRODUCT_MAPPER.toProductDto(productDAO.add(product));
     }
 
 
@@ -53,12 +53,12 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void update(ProductDto productDto) throws WrongIdException{
+    public ProductDto update(ProductDto productDto) throws WrongIdException{
         Product updatedProduct = ProductMapper.PRODUCT_MAPPER.toProduct(productDto);
         if (productDAO.getById(updatedProduct.getId()) == null)
             throw new WrongIdException(updatedProduct.getId());
 
-        productDAO.update(updatedProduct);
+        return ProductMapper.PRODUCT_MAPPER.toProductDto(productDAO.update(updatedProduct));
     }
 
     @Override

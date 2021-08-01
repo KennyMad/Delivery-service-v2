@@ -4,7 +4,7 @@ import com.company.exception.SaveDataException;
 
 import java.util.Collection;
 
-public interface DAO <T> {
+public interface Dao<T> {
 
     Collection<T> readAll();
 
@@ -12,7 +12,7 @@ public interface DAO <T> {
 
     T remove(int id);
 
-    void add (T t);
+    T add (T t);
 
-    void update(T t);
+    T update(T t);
 }

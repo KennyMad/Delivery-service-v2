@@ -1,19 +1,18 @@
 package com.company.repository.impl;
 
 import com.company.models.Product;
-import com.company.repository.ProductDAO;
+import com.company.repository.ProductDao;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
 import java.util.Collection;
 import java.util.List;
 
 @Repository
-public class ProductDaoImpl implements ProductDAO {
+public class ProductDaoImpl implements ProductDao {
 
     @Autowired
     SessionFactory sessionFactory;
@@ -30,29 +29,32 @@ public class ProductDaoImpl implements ProductDAO {
 
     @Override
     public Product remove(int id) {
+        Product removedProduct = getById(id);
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
         session.delete("id",id);
         transaction.commit();
         session.close();
-        return null;
+        return removedProduct;
     }
 
     @Override
-    public void add(Product product) {
+    public Product add(Product product) {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
         session.save(product);
         transaction.commit();
         session.close();
+        return getById(product.getId());
     }
 
     @Override
-    public void update(Product product) {
+    public Product update(Product product) {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
         session.update(product);
         transaction.commit();
         session.close();
+        return getById(product.getId());
     }
 }

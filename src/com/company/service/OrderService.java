@@ -7,11 +7,11 @@ import java.util.Collection;
 
 public interface OrderService {
 
-    void add(OrderDto orderDTO) throws WrongIdException;
+    OrderDto add(OrderDto orderDTO) throws WrongIdException;
 
     void delete(int id) throws WrongIdException;
 
-    void update(OrderDto orderDto) throws WrongIdException;
+    OrderDto update(OrderDto orderDto) throws WrongIdException;
 
     Collection<OrderDto> getOrderList();
 

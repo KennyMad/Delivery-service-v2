@@ -20,8 +20,7 @@ public class CustomerController {
 
     @PostMapping
     public ResponseEntity<?> create(@RequestBody CustomerDto customerDto){
-        customerService.add(customerDto);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return new ResponseEntity<>(customerService.add(customerDto),HttpStatus.CREATED);
     }
 
     @GetMapping
@@ -38,8 +37,7 @@ public class CustomerController {
     @PutMapping
     public ResponseEntity<?> update(@RequestBody CustomerDto customerDto){
         try {
-            customerService.update(customerDto);
-            return new ResponseEntity<>(HttpStatus.OK);
+            return new ResponseEntity<>(customerService.update(customerDto),HttpStatus.OK);
         }
         catch (WrongIdException exception){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

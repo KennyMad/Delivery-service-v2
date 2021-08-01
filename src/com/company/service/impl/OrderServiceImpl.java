@@ -5,11 +5,10 @@ import com.company.models.Customer;
 import com.company.models.DTO.OrderDto;
 import com.company.mapper.OrderMapper;
 import com.company.models.Order;
-import com.company.repository.CustomerDAO;
-import com.company.repository.OrderDAO;
+import com.company.repository.CustomerDao;
+import com.company.repository.OrderDao;
 import com.company.service.OrderService;
 import com.company.utils.impl.SequenceGenerator;
-import com.sun.org.apache.xpath.internal.operations.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,12 +19,12 @@ import java.util.stream.Collectors;
 public class OrderServiceImpl implements OrderService {
 
     @Autowired
-    private CustomerDAO customerDAO;
+    private CustomerDao customerDAO;
     @Autowired
-    private OrderDAO orderDAO;
+    private OrderDao orderDAO;
 
     @Override
-    public void add(OrderDto orderDto) throws WrongIdException{
+    public OrderDto add(OrderDto orderDto) throws WrongIdException{
         Order order = OrderMapper.ORDER_MAPPER.toOrder(orderDto);
         order.setId(SequenceGenerator.getFreeOrderId(orderDAO.readAll()));
 
@@ -33,7 +32,7 @@ public class OrderServiceImpl implements OrderService {
 
         if (customer == null)
             throw new WrongIdException(order.getCustomerId());
-        orderDAO.add(order);
+        return OrderMapper.ORDER_MAPPER.toOrderDto(orderDAO.add(order));
     }
 
     @Override
@@ -44,7 +43,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public void update(OrderDto orderDto) throws WrongIdException {
+    public OrderDto update(OrderDto orderDto) throws WrongIdException {
         if (orderDAO.getById(orderDto.getId()) == null)
             throw new WrongIdException(orderDto.getId());
 
@@ -52,7 +51,7 @@ public class OrderServiceImpl implements OrderService {
             throw new WrongIdException(orderDto.getCustomerId());
 
         Order updatedOrder = OrderMapper.ORDER_MAPPER.toOrder(orderDto);
-        orderDAO.update(updatedOrder);
+        return OrderMapper.ORDER_MAPPER.toOrderDto(orderDAO.update(updatedOrder));
     }
 
     @Override

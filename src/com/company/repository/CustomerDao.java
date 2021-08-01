@@ -2,5 +2,5 @@ package com.company.repository;
 
 import com.company.models.Customer;
 
-public interface CustomerDAO extends DAO<Customer>{
+public interface CustomerDao extends Dao<Customer> {
 }
