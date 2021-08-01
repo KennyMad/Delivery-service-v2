@@ -32,7 +32,7 @@ public class ProductDaoImpl implements ProductDao {
         Product removedProduct = getById(id);
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
-        session.delete("id",id);
+        session.delete(removedProduct);
         transaction.commit();
         session.close();
         return removedProduct;

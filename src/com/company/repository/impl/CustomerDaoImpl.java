@@ -32,7 +32,7 @@ public class CustomerDaoImpl implements CustomerDao {
         Customer removedCustomer = getById(id);
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
-        session.delete("id",id);
+        session.delete(removedCustomer);
         transaction.commit();
         session.close();
         return removedCustomer;

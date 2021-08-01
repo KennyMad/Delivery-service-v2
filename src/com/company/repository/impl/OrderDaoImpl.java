@@ -34,7 +34,7 @@ public class OrderDaoImpl implements OrderDao {
         Order removedOrder = getById(id);
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
-        session.delete("id",id);
+        session.delete(removedOrder);
         transaction.commit();
         session.close();
         return removedOrder;

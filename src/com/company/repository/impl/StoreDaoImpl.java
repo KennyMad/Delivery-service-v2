@@ -32,7 +32,7 @@ public class StoreDaoImpl implements StoreDao {
         Store removedStore = getById(id);
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
-        session.delete("id",id);
+        session.delete(removedStore);
         transaction.commit();
         session.close();
         return removedStore;
