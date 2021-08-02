@@ -43,6 +43,17 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
+    public CustomerDto getById(int id) throws WrongIdException{
+        Customer customer = customerDao.getById(id);
+
+        if (customer == null){
+            throw new WrongIdException(id);
+        }
+
+        return CustomerMapper.CUSTOMER_MAPPER.toDTO(customer);
+    }
+
+    @Override
     public Collection<CustomerDto> getCustomerList() {
         return customerDao.readAll().stream()
                 .map(CustomerMapper.CUSTOMER_MAPPER::toDTO)

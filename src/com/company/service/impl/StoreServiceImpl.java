@@ -42,6 +42,16 @@ public class StoreServiceImpl implements StoreService {
     }
 
     @Override
+    public StoreDto getById(int id) throws WrongIdException {
+        Store store = storeDao.getById(id);
+
+        if (store == null)
+            throw new WrongIdException(id);
+
+        return StoreMapper.STORE_MAPPER.toStoreDto(store);
+    }
+
+    @Override
     public Collection<StoreDto> getStoreList() {
         return storeDao.readAll().stream()
                 .map(StoreMapper.STORE_MAPPER::toStoreDto)

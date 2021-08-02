@@ -13,6 +13,8 @@ public interface StoreService {
 
     StoreDto update(StoreDto storeDTO) throws WrongIdException;
 
+    StoreDto getById(int id) throws WrongIdException;
+
     Collection<StoreDto> getStoreList();
 
 }

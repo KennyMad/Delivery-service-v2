@@ -13,6 +13,8 @@ public interface OrderService {
 
     OrderDto update(OrderDto orderDto) throws WrongIdException;
 
+    OrderDto getById(int id) throws WrongIdException;
+
     Collection<OrderDto> getOrderList();
 
 }

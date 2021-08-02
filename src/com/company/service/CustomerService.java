@@ -13,6 +13,8 @@ public interface CustomerService {
 
     CustomerDto update(CustomerDto customerDTO) throws WrongIdException;
 
+    CustomerDto getById(int id) throws WrongIdException;
+
     Collection<CustomerDto> getCustomerList();
 
 }

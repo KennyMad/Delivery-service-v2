@@ -55,6 +55,16 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public OrderDto getById(int id) throws WrongIdException{
+        Order order = orderDAO.getById(id);
+
+        if (order == null)
+            throw new WrongIdException(id);
+
+        return OrderMapper.ORDER_MAPPER.toOrderDto(order);
+    }
+
+    @Override
     public Collection<OrderDto> getOrderList() {
         return orderDAO.readAll().stream()
                 .map(OrderMapper.ORDER_MAPPER::toOrderDto)

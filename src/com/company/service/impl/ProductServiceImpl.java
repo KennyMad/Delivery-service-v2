@@ -62,6 +62,16 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public ProductDto getById(int id) throws WrongIdException {
+        Product product = productDAO.getById(id);
+
+        if (product == null)
+            throw new WrongIdException(id);
+
+        return ProductMapper.PRODUCT_MAPPER.toProductDto(product);
+    }
+
+    @Override
     public Collection<ProductDto> getProductList() {
         return productDAO.readAll().stream()
                 .map(ProductMapper.PRODUCT_MAPPER::toProductDto)

@@ -16,6 +16,8 @@ public interface ProductService {
 
     ProductDto update(ProductDto productDTO) throws WrongIdException;
 
+    ProductDto getById(int id) throws WrongIdException;
+
     Collection<ProductDto> getProductList();
 
     Collection<ProductDto> getProductsByAttributes(Map<String, String> nameValueMap) throws InvalidAttributeException;
