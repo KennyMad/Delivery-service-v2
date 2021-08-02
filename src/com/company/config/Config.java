@@ -1,6 +1,8 @@
 package com.company.config;
 
 import com.company.models.*;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.info.Info;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -48,4 +50,14 @@ public class Config {
         return configuration.buildSessionFactory();
     }
 
+
+    @Bean
+    public OpenAPI getOpenApi(){
+        return new OpenAPI()
+                .info(
+                        new Info()
+                        .title("Delivery service api")
+                        .version("1.0.0")
+                );
+    }
 }

@@ -1,12 +1,16 @@
 package com.company.models.DTO;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class StoreDto {
 
+    @Schema(accessMode = Schema.AccessMode.READ_ONLY)
     private int id;
 
+    @Schema(accessMode = Schema.AccessMode.READ_ONLY)
     private List<ProductDto> productDtoList;
 
     private String name;
