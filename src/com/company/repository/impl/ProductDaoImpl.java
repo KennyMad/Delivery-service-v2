@@ -24,7 +24,10 @@ public class ProductDaoImpl implements ProductDao {
 
     @Override
     public Product getById(int id) {
-        return sessionFactory.openSession().get(Product.class,id);
+        Session session = sessionFactory.openSession();
+        Product product = session.get(Product.class,id);
+        session.close();
+        return product;
     }
 
     @Override
@@ -32,31 +35,28 @@ public class ProductDaoImpl implements ProductDao {
         Product removedProduct = getById(id);
         if (removedProduct == null)
             return null;
-        Session session = sessionFactory.openSession();
+        Session session = sessionFactory.getCurrentSession();
         Transaction transaction = session.beginTransaction();
         session.delete(removedProduct);
         transaction.commit();
-        session.close();
         return removedProduct;
     }
 
     @Override
     public Product add(Product product) {
-        Session session = sessionFactory.openSession();
+        Session session = sessionFactory.getCurrentSession();
         Transaction transaction = session.beginTransaction();
         session.save(product);
         transaction.commit();
-        session.close();
         return getById(product.getId());
     }
 
     @Override
     public Product update(Product product) {
-        Session session = sessionFactory.openSession();
+        Session session = sessionFactory.getCurrentSession();
         Transaction transaction = session.beginTransaction();
         session.update(product);
         transaction.commit();
-        session.close();
         return getById(product.getId());
     }
 }

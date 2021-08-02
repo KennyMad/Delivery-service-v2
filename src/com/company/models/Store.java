@@ -10,7 +10,7 @@ public class Store implements Cloneable{
     @Id
     private int id;
 
-    @OneToMany(orphanRemoval = true)
+    @OneToMany(orphanRemoval = true, fetch = FetchType.EAGER)
     @JoinColumn(name = "store_id")
     private List<Product> productList;
 

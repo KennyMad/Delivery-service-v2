@@ -23,7 +23,7 @@ public class Product implements Cloneable{
 
     @Column
     @Enumerated
-    @ElementCollection(targetClass = ProductCategory.class)
+    @ElementCollection(targetClass = ProductCategory.class, fetch = FetchType.EAGER)
     List<ProductCategory> categories;
 
     public int getId() {

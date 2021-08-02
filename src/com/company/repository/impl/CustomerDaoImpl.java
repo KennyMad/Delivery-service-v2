@@ -24,7 +24,10 @@ public class CustomerDaoImpl implements CustomerDao {
 
     @Override
     public Customer getById(int id) {
-        return sessionFactory.openSession().get(Customer.class,id);
+        Session session = sessionFactory.openSession();
+        Customer customer = session.get(Customer.class, id);
+        session.close();
+        return customer;
     }
 
     @Override
@@ -32,31 +35,28 @@ public class CustomerDaoImpl implements CustomerDao {
         Customer removedCustomer = getById(id);
         if (removedCustomer == null)
             return null;
-        Session session = sessionFactory.openSession();
+        Session session = sessionFactory.getCurrentSession();
         Transaction transaction = session.beginTransaction();
         session.delete(removedCustomer);
         transaction.commit();
-        session.close();
         return removedCustomer;
     }
 
     @Override
     public Customer add(Customer customer) {
-        Session session = sessionFactory.openSession();
+        Session session = sessionFactory.getCurrentSession();
         Transaction transaction = session.beginTransaction();
         session.save(customer);
         transaction.commit();
-        session.close();
         return getById(customer.getId());
     }
 
     @Override
     public Customer update(Customer customer) {
-        Session session = sessionFactory.openSession();
+        Session session = sessionFactory.getCurrentSession();
         Transaction transaction = session.beginTransaction();
         session.update(customer);
         transaction.commit();
-        session.close();
         return getById(customer.getId());
     }
 }

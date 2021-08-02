@@ -26,7 +26,10 @@ public class OrderDaoImpl implements OrderDao {
 
     @Override
     public Order getById(int id) {
-        return sessionFactory.openSession().get(Order.class,id);
+        Session session = sessionFactory.openSession();
+        Order order = session.get(Order.class,id);
+        session.close();
+        return order;
     }
 
     @Override
@@ -34,33 +37,30 @@ public class OrderDaoImpl implements OrderDao {
         Order removedOrder = getById(id);
         if (removedOrder == null)
             return null;
-        Session session = sessionFactory.openSession();
+        Session session = sessionFactory.getCurrentSession();
         Transaction transaction = session.beginTransaction();
         session.delete(removedOrder);
         transaction.commit();
-        session.close();
         return removedOrder;
     }
 
     @Override
     public Order add(Order order) {
-        Session session = sessionFactory.openSession();
+        Session session = sessionFactory.getCurrentSession();
         Transaction transaction = session.beginTransaction();
         session.save(order.getOrderAddress());
         session.save(order);
         transaction.commit();
-        session.close();
         return getById(order.getId());
     }
 
     @Override
     public Order update(Order order) {
-        Session session = sessionFactory.openSession();
+        Session session = sessionFactory.getCurrentSession();
         Transaction transaction = session.beginTransaction();
         session.update(order.getOrderAddress());
         session.update(order);
         transaction.commit();
-        session.close();
         return getById(order.getId());
     }
 }

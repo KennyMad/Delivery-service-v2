@@ -24,7 +24,10 @@ public class StoreDaoImpl implements StoreDao {
 
     @Override
     public Store getById(int id) {
-        return sessionFactory.openSession().get(Store.class, id);
+        Session session = sessionFactory.openSession();
+        Store store = session.get(Store.class,id);
+        session.close();
+        return store;
     }
 
     @Override
@@ -32,31 +35,28 @@ public class StoreDaoImpl implements StoreDao {
         Store removedStore = getById(id);
         if (removedStore == null)
             return null;
-        Session session = sessionFactory.openSession();
+        Session session = sessionFactory.getCurrentSession();
         Transaction transaction = session.beginTransaction();
         session.delete(removedStore);
         transaction.commit();
-        session.close();
         return removedStore;
     }
 
     @Override
     public Store add(Store store) {
-        Session session = sessionFactory.openSession();
+        Session session = sessionFactory.getCurrentSession();
         Transaction transaction = session.beginTransaction();
         session.save(store);
         transaction.commit();
-        session.close();
         return getById(store.getId());
     }
 
     @Override
     public Store update(Store store) {
-        Session session = sessionFactory.openSession();
+        Session session = sessionFactory.getCurrentSession();
         Transaction transaction = session.beginTransaction();
         session.update(store);
         transaction.commit();
-        session.close();
         return getById(store.getId());
     }
 }

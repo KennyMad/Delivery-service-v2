@@ -38,6 +38,7 @@ public class Config {
         prop.setProperty("hibernate.connection.password", environment.getProperty("hibernate.connection.password"));
         prop.setProperty("hibernate.connection.driver_class",environment.getProperty("hibernate.connection.driver_class"));
         prop.setProperty("hibernate.hbm2ddl.auto", environment.getProperty("hibernate.hbm2ddl.auto"));
+        prop.setProperty("hibernate.current_session_context_class",environment.getProperty("hibernate.current_session_context_class"));
 
         org.hibernate.cfg.Configuration configuration = new org.hibernate.cfg.Configuration();
         configuration.addProperties(prop);
