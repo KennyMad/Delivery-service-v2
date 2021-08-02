@@ -26,14 +26,17 @@ public class ProductController {
     }
 
     @GetMapping
-    public ResponseEntity<Collection<ProductDto>> read (@RequestParam(defaultValue = "-1", required = false) int id){
+    public ResponseEntity<Collection<ProductDto>> read (){
         Collection<ProductDto> products = productService.getProductList();
-        if (id != -1){
-            products = products.stream().filter(p -> p.getId() == id).collect(Collectors.toList());
-        }
+
         return products != null && !products.isEmpty()
                 ? new ResponseEntity<>(products,HttpStatus.OK)
                 : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    @GetMapping(value = "{id}")
+    public ResponseEntity<?> getById(@PathVariable("id") int id){
+        return new ResponseEntity<>(productService.getById(id),HttpStatus.OK);
     }
 
     @PutMapping

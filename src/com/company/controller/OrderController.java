@@ -26,15 +26,17 @@ public class OrderController {
     }
 
     @GetMapping
-    public ResponseEntity<Collection<OrderDto>> read(@RequestParam(defaultValue = "-1",required = false) int id){
+    public ResponseEntity<Collection<OrderDto>> read(){
         Collection<OrderDto> orders = orderService.getOrderList();
-        if (id != -1){
-            orders = orders.stream().filter(o -> o.getId() == id).collect(Collectors.toList());
-        }
 
         return orders != null && !orders.isEmpty()
                 ? new ResponseEntity<>(orders,HttpStatus.OK)
                 : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    @GetMapping(value = "{id}")
+    public ResponseEntity<?> getById(@PathVariable("id") int id){
+        return new ResponseEntity<>(orderService.getById(id),HttpStatus.OK);
     }
 
     @PutMapping

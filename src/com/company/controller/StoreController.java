@@ -27,15 +27,17 @@ public class StoreController {
     }
 
     @GetMapping
-    public ResponseEntity<Collection<StoreDto>> read(@RequestParam(defaultValue = "-1", required = false) int id){
+    public ResponseEntity<Collection<StoreDto>> read(){
         Collection<StoreDto> stores = storeService.getStoreList();
-        if (id != -1){
-            stores = stores.stream().filter(s -> s.getId() == id).collect(Collectors.toList());
-        }
 
         return stores != null && !stores.isEmpty()
                 ? new ResponseEntity<>(stores,HttpStatus.OK)
                 : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    @GetMapping(value = "{id}")
+    public ResponseEntity<?> getById(@PathVariable("id") int id){
+        return new ResponseEntity<>(storeService.getById(id),HttpStatus.OK);
     }
 
     @PutMapping

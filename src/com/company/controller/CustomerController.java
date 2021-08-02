@@ -26,14 +26,17 @@ public class CustomerController {
     }
 
     @GetMapping
-    public ResponseEntity<Collection<CustomerDto>> read(@RequestParam(defaultValue = "-1", required = false) int id){
+    public ResponseEntity<Collection<CustomerDto>> read(){
         Collection<CustomerDto> customers = customerService.getCustomerList();
-        if (id != -1){
-            customers = customers.stream().filter(c -> c.getId() == id).collect(Collectors.toList());
-        }
+
         return customers != null && !customers.isEmpty()
                 ? new ResponseEntity<>(customers, HttpStatus.OK)
                 : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    @GetMapping(value = "{id}")
+    public ResponseEntity<?> getById(@PathVariable("id") int id){
+        return new ResponseEntity<>(customerService.getById(id),HttpStatus.OK);
     }
 
     @PutMapping
