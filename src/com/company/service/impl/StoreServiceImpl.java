@@ -19,11 +19,14 @@ public class StoreServiceImpl implements StoreService {
     @Autowired
     private StoreDao storeDao;
 
+    @Autowired
+    private StoreMapper storeMapper;
+
     @Override
     public StoreDto add(StoreDto storeDto){
-        Store store = StoreMapper.STORE_MAPPER.toStore(storeDto);
+        Store store = storeMapper.toEntity(storeDto);
         store.setId(SequenceGenerator.getFreeStoreId(storeDao.readAll()));
-        return StoreMapper.STORE_MAPPER.toStoreDto(storeDao.add(store));
+        return storeMapper.toDto(storeDao.add(store));
     }
 
     @Override
@@ -34,11 +37,14 @@ public class StoreServiceImpl implements StoreService {
 
     @Override
     public StoreDto update(StoreDto storeDto) throws WrongIdException{
-        Store updatedStore = StoreMapper.STORE_MAPPER.toStore(storeDto);
-        if (storeDao.getById(updatedStore.getId()) == null)
+        Store updatedStore = storeMapper.toEntity(storeDto);
+        Store store = storeDao.getById(updatedStore.getId());
+        if (store == null)
             throw new WrongIdException(updatedStore.getId());
 
-        return StoreMapper.STORE_MAPPER.toStoreDto(storeDao.update(updatedStore));
+        updatedStore.setProductList(store.getProductList());
+
+        return storeMapper.toDto(storeDao.update(updatedStore));
     }
 
     @Override
@@ -48,13 +54,13 @@ public class StoreServiceImpl implements StoreService {
         if (store == null)
             throw new WrongIdException(id);
 
-        return StoreMapper.STORE_MAPPER.toStoreDto(store);
+        return storeMapper.toDto(store);
     }
 
     @Override
     public Collection<StoreDto> getStoreList() {
         return storeDao.readAll().stream()
-                .map(StoreMapper.STORE_MAPPER::toStoreDto)
+                .map(storeMapper::toDto)
                 .collect(Collectors.toList());
     }
 

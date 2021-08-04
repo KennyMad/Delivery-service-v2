@@ -23,16 +23,19 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private OrderDao orderDAO;
 
+    @Autowired
+    private OrderMapper orderMapper;
+
     @Override
     public OrderDto add(OrderDto orderDto) throws WrongIdException{
-        Order order = OrderMapper.ORDER_MAPPER.toOrder(orderDto);
+        Order order = orderMapper.toEntity(orderDto);
         order.setId(SequenceGenerator.getFreeOrderId(orderDAO.readAll()));
 
         Customer customer = customerDAO.getById(order.getCustomerId());
 
         if (customer == null)
             throw new WrongIdException(order.getCustomerId());
-        return OrderMapper.ORDER_MAPPER.toOrderDto(orderDAO.add(order));
+        return orderMapper.toDto(orderDAO.add(order));
     }
 
     @Override
@@ -50,8 +53,8 @@ public class OrderServiceImpl implements OrderService {
         if (customerDAO.getById(orderDto.getCustomerId()) == null)
             throw new WrongIdException(orderDto.getCustomerId());
 
-        Order updatedOrder = OrderMapper.ORDER_MAPPER.toOrder(orderDto);
-        return OrderMapper.ORDER_MAPPER.toOrderDto(orderDAO.update(updatedOrder));
+        Order updatedOrder = orderMapper.toEntity(orderDto);
+        return orderMapper.toDto(orderDAO.update(updatedOrder));
     }
 
     @Override
@@ -61,13 +64,13 @@ public class OrderServiceImpl implements OrderService {
         if (order == null)
             throw new WrongIdException(id);
 
-        return OrderMapper.ORDER_MAPPER.toOrderDto(order);
+        return orderMapper.toDto(order);
     }
 
     @Override
     public Collection<OrderDto> getOrderList() {
         return orderDAO.readAll().stream()
-                .map(OrderMapper.ORDER_MAPPER::toOrderDto)
+                .map(orderMapper::toDto)
                 .collect(Collectors.toList());
     }
 }

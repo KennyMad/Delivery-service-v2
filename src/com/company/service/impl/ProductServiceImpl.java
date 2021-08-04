@@ -26,9 +26,12 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     private StoreDao storeDAO;
 
+    @Autowired
+    private ProductMapper productMapper;
+
     @Override
     public ProductDto add(ProductDto productDto) throws WrongIdException{
-        Product product = ProductMapper.PRODUCT_MAPPER.toProduct(productDto);
+        Product product = productMapper.toEntity(productDto);
         product.setId(SequenceGenerator.getFreeProductId(productDAO.readAll()));
 
         Store store = storeDAO.getById(product.getStoreId());
@@ -36,7 +39,7 @@ public class ProductServiceImpl implements ProductService {
             throw new WrongIdException(product.getStoreId());
         store.getProductList().add(product);
 
-        return ProductMapper.PRODUCT_MAPPER.toProductDto(productDAO.add(product));
+        return productMapper.toDto(productDAO.add(product));
     }
 
 
@@ -54,11 +57,11 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductDto update(ProductDto productDto) throws WrongIdException{
-        Product updatedProduct = ProductMapper.PRODUCT_MAPPER.toProduct(productDto);
+        Product updatedProduct = productMapper.toEntity(productDto);
         if (productDAO.getById(updatedProduct.getId()) == null)
             throw new WrongIdException(updatedProduct.getId());
 
-        return ProductMapper.PRODUCT_MAPPER.toProductDto(productDAO.update(updatedProduct));
+        return productMapper.toDto(productDAO.update(updatedProduct));
     }
 
     @Override
@@ -68,13 +71,13 @@ public class ProductServiceImpl implements ProductService {
         if (product == null)
             throw new WrongIdException(id);
 
-        return ProductMapper.PRODUCT_MAPPER.toProductDto(product);
+        return productMapper.toDto(product);
     }
 
     @Override
     public Collection<ProductDto> getProductList() {
         return productDAO.readAll().stream()
-                .map(ProductMapper.PRODUCT_MAPPER::toProductDto)
+                .map(productMapper::toDto)
                 .collect(Collectors.toList());
     }
 
@@ -95,7 +98,7 @@ public class ProductServiceImpl implements ProductService {
                 .collect(Collectors.toList());
 
         return productList.stream()
-                .map(ProductMapper.PRODUCT_MAPPER::toProductDto)
+                .map(productMapper::toDto)
                 .collect(Collectors.toList());
     }
 
@@ -155,7 +158,7 @@ public class ProductServiceImpl implements ProductService {
     public Collection<ProductDto> getProductsByCategory(ProductCategory category){
         return productDAO.readAll().stream()
                 .filter(p -> p.getCategories().contains(category))
-                .map(ProductMapper.PRODUCT_MAPPER::toProductDto)
+                .map(productMapper::toDto)
                 .collect(Collectors.toList());
     }
 
@@ -169,7 +172,7 @@ public class ProductServiceImpl implements ProductService {
         for (int id: store.getProductList().stream().map(Product::getId).collect(Collectors.toList()))
             productList.add(productDAO.getById(id));
         return productList.stream()
-                .map(ProductMapper.PRODUCT_MAPPER::toProductDto)
+                .map(productMapper::toDto)
                 .collect(Collectors.toList());
     }
 

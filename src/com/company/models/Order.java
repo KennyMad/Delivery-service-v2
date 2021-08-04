@@ -20,7 +20,7 @@ public class Order {
     @JoinColumn(name = "address_id")
     private OrderAddress orderAddress;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "product_count_order",
     joinColumns = {@JoinColumn(name = "order_id",referencedColumnName = "id")})
     @MapKeyColumn(name = "product_id")

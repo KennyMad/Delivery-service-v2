@@ -4,16 +4,13 @@ import com.company.models.DTO.OrderDto;
 import com.company.models.Order;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.factory.Mappers;
 
-@Mapper
+@Mapper(uses = {OrderAddressMapper.class})
 public interface OrderMapper {
 
-    OrderMapper ORDER_MAPPER = Mappers.getMapper(OrderMapper.class);
-
     @Mapping(source = "orderAddress", target = "orderAddressDto")
-    OrderDto toOrderDto(Order order);
+    OrderDto toDto(Order order);
 
     @Mapping(source = "orderAddressDto", target = "orderAddress")
-    Order toOrder(OrderDto orderDto);
+    Order toEntity(OrderDto orderDto);
 }

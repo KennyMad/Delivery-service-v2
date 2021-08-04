@@ -1,9 +1,11 @@
 package com.company.config;
 
+import com.company.mapper.*;
 import com.company.models.*;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import org.hibernate.SessionFactory;
+import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -60,5 +62,30 @@ public class Config {
                         .title("Delivery service api")
                         .version("1.0.0")
                 );
+    }
+
+    @Bean
+    public CustomerMapper getCustomerMapper(){
+        return Mappers.getMapper(CustomerMapper.class);
+    }
+
+    @Bean
+    public OrderAddressMapper getOrderAddressMapper(){
+        return Mappers.getMapper(OrderAddressMapper.class);
+    }
+
+    @Bean
+    public OrderMapper getOrderMapper(){
+        return Mappers.getMapper(OrderMapper.class);
+    }
+
+    @Bean
+    public ProductMapper getProductMapper(){
+        return Mappers.getMapper(ProductMapper.class);
+    }
+
+    @Bean
+    public StoreMapper getStoreMapper(){
+        return Mappers.getMapper(StoreMapper.class);
     }
 }

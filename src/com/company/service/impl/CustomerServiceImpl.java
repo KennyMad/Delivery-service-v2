@@ -19,11 +19,14 @@ public class CustomerServiceImpl implements CustomerService {
     @Autowired
     private CustomerDao customerDao;
 
+    @Autowired
+    private CustomerMapper customerMapper;
+
     @Override
     public CustomerDto add(CustomerDto customerDto){
-        Customer customer = CustomerMapper.CUSTOMER_MAPPER.toCustomer(customerDto);
+        Customer customer = customerMapper.toEntity(customerDto);
         customer.setId(SequenceGenerator.getFreeCustomerId(customerDao.readAll()));
-        return CustomerMapper.CUSTOMER_MAPPER.toDTO(customerDao.add(customer));
+        return customerMapper.toDto(customerDao.add(customer));
     }
 
     @Override
@@ -34,12 +37,12 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public CustomerDto update(CustomerDto customerDto) throws WrongIdException{
-        Customer updatedCustomer = CustomerMapper.CUSTOMER_MAPPER.toCustomer(customerDto);
+        Customer updatedCustomer = customerMapper.toEntity(customerDto);
 
         if (customerDao.getById(updatedCustomer.getId()) == null)
             throw new WrongIdException(updatedCustomer.getId());
 
-        return CustomerMapper.CUSTOMER_MAPPER.toDTO(customerDao.update(updatedCustomer));
+        return customerMapper.toDto(customerDao.update(updatedCustomer));
     }
 
     @Override
@@ -50,13 +53,13 @@ public class CustomerServiceImpl implements CustomerService {
             throw new WrongIdException(id);
         }
 
-        return CustomerMapper.CUSTOMER_MAPPER.toDTO(customer);
+        return customerMapper.toDto(customer);
     }
 
     @Override
     public Collection<CustomerDto> getCustomerList() {
         return customerDao.readAll().stream()
-                .map(CustomerMapper.CUSTOMER_MAPPER::toDTO)
+                .map(customerMapper::toDto)
                 .collect(Collectors.toList());
     }
 }
