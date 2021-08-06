@@ -11,6 +11,7 @@ import java.util.List;
 public class Product implements Cloneable{
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @Column(name = "store_id")

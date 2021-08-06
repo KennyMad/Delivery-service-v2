@@ -11,7 +11,6 @@ import com.company.models.Store;
 import com.company.repository.ProductDao;
 import com.company.repository.StoreDao;
 import com.company.service.ProductService;
-import com.company.utils.impl.SequenceGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,7 +31,6 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductDto add(ProductDto productDto) throws WrongIdException{
         Product product = productMapper.toEntity(productDto);
-        product.setId(SequenceGenerator.getFreeProductId(productDAO.readAll()));
 
         Store store = storeDAO.getById(product.getStoreId());
         if (store == null)

@@ -11,6 +11,7 @@ import java.util.List;
 public class Store implements Cloneable{
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @OneToMany(orphanRemoval = true, fetch = FetchType.EAGER)

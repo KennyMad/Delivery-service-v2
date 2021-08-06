@@ -8,7 +8,6 @@ import com.company.models.Order;
 import com.company.repository.CustomerDao;
 import com.company.repository.OrderDao;
 import com.company.service.OrderService;
-import com.company.utils.impl.SequenceGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,7 +28,6 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public OrderDto add(OrderDto orderDto) throws WrongIdException{
         Order order = orderMapper.toEntity(orderDto);
-        order.setId(SequenceGenerator.getFreeOrderId(orderDAO.readAll()));
 
         Customer customer = customerDAO.getById(order.getCustomerId());
 

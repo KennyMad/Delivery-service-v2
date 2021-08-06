@@ -11,6 +11,7 @@ import java.util.Map;
 public class Order {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @Column(name = "customer_id")

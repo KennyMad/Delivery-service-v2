@@ -6,7 +6,6 @@ import com.company.mapper.StoreMapper;
 import com.company.models.Store;
 import com.company.repository.StoreDao;
 import com.company.service.StoreService;
-import com.company.utils.impl.SequenceGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,7 +24,6 @@ public class StoreServiceImpl implements StoreService {
     @Override
     public StoreDto add(StoreDto storeDto){
         Store store = storeMapper.toEntity(storeDto);
-        store.setId(SequenceGenerator.getFreeStoreId(storeDao.readAll()));
         return storeMapper.toDto(storeDao.add(store));
     }
 

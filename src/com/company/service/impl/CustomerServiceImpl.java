@@ -6,7 +6,6 @@ import com.company.models.DTO.CustomerDto;
 import com.company.mapper.CustomerMapper;
 import com.company.repository.CustomerDao;
 import com.company.service.CustomerService;
-import com.company.utils.impl.SequenceGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,7 +24,6 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public CustomerDto add(CustomerDto customerDto){
         Customer customer = customerMapper.toEntity(customerDto);
-        customer.setId(SequenceGenerator.getFreeCustomerId(customerDao.readAll()));
         return customerMapper.toDto(customerDao.add(customer));
     }
 
