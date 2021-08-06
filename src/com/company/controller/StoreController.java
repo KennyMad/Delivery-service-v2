@@ -47,14 +47,15 @@ public class StoreController {
     }
 
     @Operation(summary = "Updates information for a specific store")
-    @PutMapping
-    public ResponseEntity<?> update(@RequestBody StoreDto storeDto){
+    @PutMapping("{id}")
+    public ResponseEntity<?> update(@RequestBody StoreDto storeDto, @PathVariable("id") int id){
+        storeDto.setId(id);
         return new ResponseEntity<>(storeService.update(storeDto),HttpStatus.OK);
     }
 
     @Operation(summary = "Deletes the store and its products")
-    @DeleteMapping
-    public ResponseEntity<?> delete(@RequestParam int id){
+    @DeleteMapping("{id}")
+    public ResponseEntity<?> delete(@PathVariable("id") int id){
         storeService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }

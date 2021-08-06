@@ -46,14 +46,15 @@ public class CustomerController {
     }
 
     @Operation(summary = "Updates information for a specific customer")
-    @PutMapping
-    public ResponseEntity<?> update(@RequestBody CustomerDto customerDto){
+    @PutMapping(value = "{id}")
+    public ResponseEntity<?> update(@RequestBody CustomerDto customerDto, @PathVariable("id") int id){
+        customerDto.setId(id);
         return new ResponseEntity<>(customerService.update(customerDto),HttpStatus.OK);
     }
 
     @Operation(summary = "Deletes the customer")
-    @DeleteMapping
-    public ResponseEntity<?> delete(@RequestParam int id){
+    @DeleteMapping(value = "{id}")
+    public ResponseEntity<?> delete(@PathVariable int id){
         customerService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }

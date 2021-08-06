@@ -46,14 +46,15 @@ public class OrderController {
     }
 
     @Operation(summary = "Updates information for a specific order")
-    @PutMapping
-    public ResponseEntity<?> update(@RequestBody OrderDto orderDto){
+    @PutMapping("{id}")
+    public ResponseEntity<?> update(@RequestBody OrderDto orderDto, @PathVariable("id") int id){
+        orderDto.setId(id);
         return new ResponseEntity<>(orderService.update(orderDto),HttpStatus.OK);
     }
 
     @Operation(summary = "Deletes the order")
-    @DeleteMapping
-    public ResponseEntity<?> delete(@RequestParam int id){
+    @DeleteMapping(value = "{id}")
+    public ResponseEntity<?> delete(@PathVariable("id") int id){
         orderService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
