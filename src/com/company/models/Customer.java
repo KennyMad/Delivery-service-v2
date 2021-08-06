@@ -1,7 +1,10 @@
 package com.company.models;
 
+import lombok.Data;
+
 import javax.persistence.*;
 
+@Data
 @Table (name = "customers")
 @Entity
 public class Customer {
@@ -15,27 +18,4 @@ public class Customer {
     @Column(name = "additional_information")
     private String additionalInformation;
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return customerName;
-    }
-
-    public void setName(String customerName) {
-        this.customerName = customerName;
-    }
-
-    public String getAdditionalInformation() {
-        return additionalInformation;
-    }
-
-    public void setAdditionalInformation(String additionalInformation) {
-        this.additionalInformation = additionalInformation;
-    }
 }

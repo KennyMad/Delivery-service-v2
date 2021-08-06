@@ -1,10 +1,11 @@
 package com.company.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.Data;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
+@Data
 public class ResponseMessage {
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
@@ -18,21 +19,5 @@ public class ResponseMessage {
 
     public ResponseMessage(LocalDateTime time) {
         this.time = time;
-    }
-
-    public LocalDateTime getTime() {
-        return time;
-    }
-
-    public void setTime(LocalDateTime time) {
-        this.time = time;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
     }
 }

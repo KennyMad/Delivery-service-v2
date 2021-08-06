@@ -1,11 +1,11 @@
 package com.company.models;
 
+import lombok.Data;
+
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
+@Data
 @Entity
 @Table (name = "orders")
 public class Order {
@@ -27,45 +27,4 @@ public class Order {
     @Column(name = "count")
     private Map<Integer, Integer> productIdCountMap;
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public void setCustomerId(int customerId) {
-        this.customerId = customerId;
-    }
-
-    public void setOrderAddress(OrderAddress orderAddress) {
-        this.orderAddress = orderAddress;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public int getCustomerId() {
-        return customerId;
-    }
-
-    public OrderAddress getOrderAddress() {
-        return orderAddress;
-    }
-
-    public Map<Integer, Integer> getProductIdCountMap() {
-        return productIdCountMap;
-    }
-
-    public void setProductIdCountMap(Map<Integer, Integer> productIdCountMap) {
-        this.productIdCountMap = productIdCountMap;
-    }
-
-    @Override
-    public String toString() {
-        return "Order{" +
-                "id=" + id +
-                ", customerId=" + customerId +
-                ", orderAddress=" + orderAddress +
-                ", productIdCountMap=" + productIdCountMap +
-                '}';
-    }
 }
