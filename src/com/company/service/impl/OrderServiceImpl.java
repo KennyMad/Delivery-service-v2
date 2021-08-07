@@ -11,6 +11,7 @@ import com.company.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
@@ -18,56 +19,55 @@ import java.util.stream.Collectors;
 public class OrderServiceImpl implements OrderService {
 
     @Autowired
-    private CustomerDao customerDAO;
+    private CustomerDao customerDao;
     @Autowired
-    private OrderDao orderDAO;
+    private OrderDao orderDao;
 
     @Autowired
     private OrderMapper orderMapper;
 
     @Override
     public OrderDto add(OrderDto orderDto) throws WrongIdException{
+        if (!customerDao.existsById(orderDto.getCustomerId())) {
+            throw new WrongIdException(orderDto.getCustomerId());
+        }
         Order order = orderMapper.toEntity(orderDto);
 
-        Customer customer = customerDAO.getById(order.getCustomerId());
-
-        if (customer == null)
-            throw new WrongIdException(order.getCustomerId());
-        return orderMapper.toDto(orderDAO.add(order));
+        return orderMapper.toDto(orderDao.saveAndFlush(order));
     }
 
     @Override
     public void delete(int id) throws WrongIdException {
-        Order order = orderDAO.remove(id);
-        if (order == null)
+        if (!orderDao.existsById(id)) {
             throw new WrongIdException(id);
+        }
+        orderDao.deleteById(id);
     }
 
     @Override
     public OrderDto update(OrderDto orderDto) throws WrongIdException {
-        if (orderDAO.getById(orderDto.getId()) == null)
+        if (!orderDao.existsById(orderDto.getId())){
             throw new WrongIdException(orderDto.getId());
-
-        if (customerDAO.getById(orderDto.getCustomerId()) == null)
+        }
+        if (!customerDao.existsById(orderDto.getCustomerId())){
             throw new WrongIdException(orderDto.getCustomerId());
-
+        }
         Order updatedOrder = orderMapper.toEntity(orderDto);
-        return orderMapper.toDto(orderDAO.update(updatedOrder));
+
+        return orderMapper.toDto(orderDao.saveAndFlush(updatedOrder));
     }
 
     @Override
     public OrderDto getById(int id) throws WrongIdException{
-        Order order = orderDAO.getById(id);
-
-        if (order == null)
+        if (!orderDao.existsById(id)){
             throw new WrongIdException(id);
-
-        return orderMapper.toDto(order);
+        }
+        return orderMapper.toDto(orderDao.getById(id));
     }
 
     @Override
     public Collection<OrderDto> getOrderList() {
-        return orderDAO.readAll().stream()
+        return orderDao.findAll().stream()
                 .map(orderMapper::toDto)
                 .collect(Collectors.toList());
     }

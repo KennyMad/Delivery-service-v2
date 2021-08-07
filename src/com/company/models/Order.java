@@ -17,7 +17,7 @@ public class Order {
     @Column(name = "customer_id")
     private int customerId;
 
-    @OneToOne(orphanRemoval = true)
+    @OneToOne(orphanRemoval = true,cascade = CascadeType.ALL)
     @JoinColumn(name = "address_id")
     private OrderAddress orderAddress;
 

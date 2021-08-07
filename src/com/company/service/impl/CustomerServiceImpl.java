@@ -9,6 +9,7 @@ import com.company.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
@@ -24,39 +25,36 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public CustomerDto add(CustomerDto customerDto){
         Customer customer = customerMapper.toEntity(customerDto);
-        return customerMapper.toDto(customerDao.add(customer));
+        return customerMapper.toDto(customerDao.save(customer));
     }
 
     @Override
     public void delete(int id) throws WrongIdException{
-        if(customerDao.remove(id) == null)
+        if (!customerDao.existsById(id)) {
             throw new WrongIdException(id);
+        }
+        customerDao.deleteById(id);
     }
 
     @Override
     public CustomerDto update(CustomerDto customerDto) throws WrongIdException{
-        Customer updatedCustomer = customerMapper.toEntity(customerDto);
-
-        if (customerDao.getById(updatedCustomer.getId()) == null)
-            throw new WrongIdException(updatedCustomer.getId());
-
-        return customerMapper.toDto(customerDao.update(updatedCustomer));
+        if (!customerDao.existsById(customerDto.getId())) {
+            throw new WrongIdException(customerDto.getId());
+        }
+        return customerMapper.toDto(customerDao.save(customerMapper.toEntity(customerDto)));
     }
 
     @Override
     public CustomerDto getById(int id) throws WrongIdException{
-        Customer customer = customerDao.getById(id);
-
-        if (customer == null){
+        if (!customerDao.existsById(id)) {
             throw new WrongIdException(id);
         }
-
-        return customerMapper.toDto(customer);
+        return customerMapper.toDto(customerDao.getById(id));
     }
 
     @Override
     public Collection<CustomerDto> getCustomerList() {
-        return customerDao.readAll().stream()
+        return customerDao.findAll().stream()
                 .map(customerMapper::toDto)
                 .collect(Collectors.toList());
     }

@@ -14,6 +14,7 @@ import com.company.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -21,60 +22,56 @@ import java.util.stream.Collectors;
 public class ProductServiceImpl implements ProductService {
 
     @Autowired
-    private ProductDao productDAO;
+    private ProductDao productDao;
     @Autowired
-    private StoreDao storeDAO;
+    private StoreDao storeDao;
 
     @Autowired
     private ProductMapper productMapper;
 
     @Override
     public ProductDto add(ProductDto productDto) throws WrongIdException{
+        if (!storeDao.existsById(productDto.getStoreId())){
+            throw new WrongIdException(productDto.getStoreId());
+        }
         Product product = productMapper.toEntity(productDto);
 
-        Store store = storeDAO.getById(product.getStoreId());
-        if (store == null)
-            throw new WrongIdException(product.getStoreId());
-        store.getProductList().add(product);
-
-        return productMapper.toDto(productDAO.add(product));
+        return productMapper.toDto(productDao.save(product));
     }
 
 
     @Override
-    public void delete(int productId) throws WrongIdException{
-        Product product = productDAO.remove(productId);
-        if (product == null)
-            throw new WrongIdException(productId);
-
-        Store store = storeDAO.getById(product.getStoreId());
-        if (store == null)
-            throw new WrongIdException(product.getStoreId());
-        store.getProductList().remove(getProductList().stream().filter(p -> p.getId() == productId).findFirst());
+    public void delete(int id) throws WrongIdException{
+        if (!productDao.existsById(id)){
+            throw new WrongIdException(id);
+        }
+        productDao.deleteById(id);
     }
 
     @Override
     public ProductDto update(ProductDto productDto) throws WrongIdException{
+        if (!productDao.existsById(productDto.getId())){
+            throw new WrongIdException(productDto.getId());
+        }
+        if (!storeDao.existsById(productDto.getStoreId())){
+            throw new WrongIdException(productDto.getStoreId());
+        }
         Product updatedProduct = productMapper.toEntity(productDto);
-        if (productDAO.getById(updatedProduct.getId()) == null)
-            throw new WrongIdException(updatedProduct.getId());
 
-        return productMapper.toDto(productDAO.update(updatedProduct));
+        return productMapper.toDto(productDao.save(updatedProduct));
     }
 
     @Override
     public ProductDto getById(int id) throws WrongIdException {
-        Product product = productDAO.getById(id);
-
-        if (product == null)
+        if (!productDao.existsById(id)){
             throw new WrongIdException(id);
-
-        return productMapper.toDto(product);
+        }
+        return productMapper.toDto(productDao.getById(id));
     }
 
     @Override
     public Collection<ProductDto> getProductList() {
-        return productDAO.readAll().stream()
+        return productDao.findAll().stream()
                 .map(productMapper::toDto)
                 .collect(Collectors.toList());
     }
@@ -91,7 +88,7 @@ public class ProductServiceImpl implements ProductService {
             }
         }
 
-        List<Product> productList = productDAO.readAll().stream()
+        List<Product> productList = productDao.findAll().stream()
                 .filter(product -> isProductHasAttribute(product,attributeValueMap))
                 .collect(Collectors.toList());
 
@@ -154,7 +151,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Collection<ProductDto> getProductsByCategory(ProductCategory category){
-        return productDAO.readAll().stream()
+        return productDao.findAll().stream()
                 .filter(p -> p.getCategories().contains(category))
                 .map(productMapper::toDto)
                 .collect(Collectors.toList());
@@ -162,13 +159,14 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Collection<ProductDto> getProductsByStore(int storeId) throws WrongIdException {
-        Store store = storeDAO.getById(storeId);
-        if (store == null)
+        if (!storeDao.existsById(storeId)){
             throw new WrongIdException(storeId);
+        }
+        Store store = storeDao.getById(storeId);
 
         List<Product> productList = new ArrayList<>();
         for (int id: store.getProductList().stream().map(Product::getId).collect(Collectors.toList()))
-            productList.add(productDAO.getById(id));
+            productList.add(productDao.getById(id));
         return productList.stream()
                 .map(productMapper::toDto)
                 .collect(Collectors.toList());

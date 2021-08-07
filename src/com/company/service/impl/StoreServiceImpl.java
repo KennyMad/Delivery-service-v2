@@ -9,6 +9,7 @@ import com.company.service.StoreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -24,40 +25,41 @@ public class StoreServiceImpl implements StoreService {
     @Override
     public StoreDto add(StoreDto storeDto){
         Store store = storeMapper.toEntity(storeDto);
-        return storeMapper.toDto(storeDao.add(store));
+        return storeMapper.toDto(storeDao.save(store));
     }
 
     @Override
     public void delete(int id) throws WrongIdException{
-        if(storeDao.remove(id) == null)
+        if (!storeDao.existsById(id)){
             throw new WrongIdException(id);
+        }
+        storeDao.deleteById(id);
     }
 
     @Override
     public StoreDto update(StoreDto storeDto) throws WrongIdException{
+        if (!storeDao.existsById(storeDto.getId())){
+            throw new WrongIdException(storeDto.getId());
+        }
         Store updatedStore = storeMapper.toEntity(storeDto);
-        Store store = storeDao.getById(updatedStore.getId());
-        if (store == null)
-            throw new WrongIdException(updatedStore.getId());
 
+        Store store = storeDao.getById(updatedStore.getId());
         updatedStore.setProductList(store.getProductList());
 
-        return storeMapper.toDto(storeDao.update(updatedStore));
+        return storeMapper.toDto(storeDao.save(updatedStore));
     }
 
     @Override
     public StoreDto getById(int id) throws WrongIdException {
-        Store store = storeDao.getById(id);
-
-        if (store == null)
+        if (!storeDao.existsById(id)){
             throw new WrongIdException(id);
-
-        return storeMapper.toDto(store);
+        }
+        return storeMapper.toDto(storeDao.getById(id));
     }
 
     @Override
     public Collection<StoreDto> getStoreList() {
-        return storeDao.readAll().stream()
+        return storeDao.findAll().stream()
                 .map(storeMapper::toDto)
                 .collect(Collectors.toList());
     }

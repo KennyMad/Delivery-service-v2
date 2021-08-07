@@ -12,7 +12,7 @@ public interface ProductService {
 
     ProductDto add(ProductDto productDTO) throws WrongIdException;
 
-    void delete(int productId) throws WrongIdException;
+    void delete(int id) throws WrongIdException;
 
     ProductDto update(ProductDto productDTO) throws WrongIdException;
 
