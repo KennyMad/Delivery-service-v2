@@ -7,6 +7,7 @@ import com.company.mapper.OrderMapper;
 import com.company.models.Order;
 import com.company.repository.CustomerDao;
 import com.company.repository.OrderDao;
+import com.company.repository.ProductDao;
 import com.company.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,8 @@ public class OrderServiceImpl implements OrderService {
     private CustomerDao customerDao;
     @Autowired
     private OrderDao orderDao;
+    @Autowired
+    private ProductDao productDao;
 
     @Autowired
     private OrderMapper orderMapper;
@@ -31,6 +34,11 @@ public class OrderServiceImpl implements OrderService {
         if (!customerDao.existsById(orderDto.getCustomerId())) {
             throw new WrongIdException(orderDto.getCustomerId());
         }
+        orderDto.getProductIdCountMap().keySet().forEach(id -> {
+            if (!productDao.existsById(id)){
+                throw new WrongIdException(id);
+            }
+        });
         Order order = orderMapper.toEntity(orderDto);
 
         return orderMapper.toDto(orderDao.saveAndFlush(order));
@@ -52,6 +60,11 @@ public class OrderServiceImpl implements OrderService {
         if (!customerDao.existsById(orderDto.getCustomerId())){
             throw new WrongIdException(orderDto.getCustomerId());
         }
+        orderDto.getProductIdCountMap().keySet().forEach(id -> {
+            if (!productDao.existsById(id)){
+                throw new WrongIdException(id);
+            }
+        });
         Order updatedOrder = orderMapper.toEntity(orderDto);
 
         return orderMapper.toDto(orderDao.saveAndFlush(updatedOrder));
