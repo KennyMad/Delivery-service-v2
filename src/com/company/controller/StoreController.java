@@ -35,9 +35,7 @@ public class StoreController {
     public ResponseEntity<Collection<StoreDto>> read(){
         Collection<StoreDto> stores = storeService.getStoreList();
 
-        return stores != null && !stores.isEmpty()
-                ? new ResponseEntity<>(stores,HttpStatus.OK)
-                : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(stores,HttpStatus.OK);
     }
 
     @Operation(summary = "Returns store by id")

@@ -34,9 +34,7 @@ public class CustomerController {
     public ResponseEntity<Collection<CustomerDto>> read(){
         Collection<CustomerDto> customers = customerService.getCustomerList();
 
-        return customers != null && !customers.isEmpty()
-                ? new ResponseEntity<>(customers, HttpStatus.OK)
-                : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(customers, HttpStatus.OK);
     }
 
     @Operation(summary = "Returns customer by id")

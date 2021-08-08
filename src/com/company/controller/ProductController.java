@@ -34,9 +34,7 @@ public class ProductController {
     public ResponseEntity<Collection<ProductDto>> read (){
         Collection<ProductDto> products = productService.getProductList();
 
-        return products != null && !products.isEmpty()
-                ? new ResponseEntity<>(products,HttpStatus.OK)
-                : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(products,HttpStatus.OK);
     }
 
     @Operation(summary = "Returns product by id")

@@ -34,9 +34,7 @@ public class OrderController {
     public ResponseEntity<Collection<OrderDto>> read(){
         Collection<OrderDto> orders = orderService.getOrderList();
 
-        return orders != null && !orders.isEmpty()
-                ? new ResponseEntity<>(orders,HttpStatus.OK)
-                : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(orders,HttpStatus.OK);
     }
 
     @Operation(summary = "Returns order by id")
