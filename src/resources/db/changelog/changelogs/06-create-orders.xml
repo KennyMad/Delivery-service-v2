@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+	http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
+    
+    <changeSet id="Create orders" author="postgres">
+        <createTable tableName="orders">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="customer_id" type="int" >
+                <constraints nullable="false" foreignKeyName="id"/>
+            </column>
+            <column name="address_id" type="int">
+                <constraints nullable="false" foreignKeyName="id"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint
+                baseTableName="orders"
+                baseColumnNames="customer_id"
+                constraintName="customer_id"
+                referencedTableName="customers"
+                referencedColumnNames="id"/>
+
+        <addForeignKeyConstraint
+                baseTableName="orders"
+                baseColumnNames="address_id"
+                constraintName="id"
+                referencedTableName="addresses"
+                referencedColumnNames="id"
+                onDelete="CASCADE"
+                onUpdate="CASCADE"/>
+
+    </changeSet>
+    
+</databaseChangeLog>
