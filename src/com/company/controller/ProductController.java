@@ -1,7 +1,5 @@
 package com.company.controller;
 
-import com.company.annotations.ProductExceptionHandler;
-import com.company.exception.WrongIdException;
 import com.company.models.DTO.ProductDto;
 import com.company.service.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -12,12 +10,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
-import java.util.stream.Collectors;
 
 @Tag(name = "Product controller", description = "Allows to manage products")
 @RestController
 @RequestMapping("products")
-@ProductExceptionHandler
 public class ProductController {
 
     @Autowired

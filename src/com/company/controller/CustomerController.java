@@ -1,7 +1,5 @@
 package com.company.controller;
 
-import com.company.annotations.CustomerExceptionHandler;
-import com.company.exception.WrongIdException;
 import com.company.models.DTO.CustomerDto;
 import com.company.service.CustomerService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -12,12 +10,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
-import java.util.stream.Collectors;
 
 @Tag(name = "Customer controller", description = "Allows to manage customers")
 @RestController
 @RequestMapping("customers")
-@CustomerExceptionHandler
 public class CustomerController {
 
     @Autowired

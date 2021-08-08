@@ -1,7 +1,5 @@
 package com.company.controller;
 
-import com.company.annotations.OrderExceptionHandler;
-import com.company.exception.WrongIdException;
 import com.company.models.DTO.OrderDto;
 import com.company.service.OrderService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -12,12 +10,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
-import java.util.stream.Collectors;
 
 @Tag(name = "Order controller", description = "Allows to manage orders")
 @RestController
 @RequestMapping("orders")
-@OrderExceptionHandler
 public class OrderController {
 
     @Autowired

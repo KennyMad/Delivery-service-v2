@@ -1,7 +1,6 @@
 package com.company.controller;
 
-import com.company.annotations.StoreExceptionHandler;
-import com.company.exception.WrongIdException;
+
 import com.company.models.DTO.StoreDto;
 import com.company.service.StoreService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -11,14 +10,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.lang.ref.WeakReference;
 import java.util.Collection;
-import java.util.stream.Collectors;
 
 @Tag(name = "Store controller", description = "Allows to manage stores")
 @RestController
 @RequestMapping("stores")
-@StoreExceptionHandler
 public class StoreController {
 
     @Autowired
