@@ -1,11 +1,13 @@
 package com.company.models;
 
 import lombok.Data;
+import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Data
+@Audited
 @Entity
 @Table(name = "products")
 public class Product implements Cloneable{

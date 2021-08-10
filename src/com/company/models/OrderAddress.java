@@ -1,10 +1,12 @@
 package com.company.models;
 
 import lombok.Data;
+import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
 
 @Data
+@Audited
 @Entity
 @Table(name = "addresses")
 public class OrderAddress {

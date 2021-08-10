@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+	http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
+
+    <changeSet id="Create envers tables" author="posgres">
+        <createTable tableName="revinfo">
+            <column name="rev" type="int" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="revtstmp" type="bigint"/>
+        </createTable>
+        
+        <createTable tableName="customers_aud">
+            <column name="id" type="int">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="rev" type="int">
+                <constraints primaryKey="true"
+                             referencedTableName="revinfo"
+                             referencedColumnNames="rev"
+                             foreignKeyName="fk_customers_aud_revinfo"
+                             nullable="false"/>
+            </column>
+            <column name="revtype" type="smallint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="customer_name" type="text"/>
+            <column name="additional_information" type="text"/>
+        </createTable>
+
+        <createTable tableName="addresses_aud">
+            <column name="id" type="int">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="rev" type="int">
+                <constraints primaryKey="true"
+                             referencedTableName="revinfo"
+                             referencedColumnNames="rev"
+                             foreignKeyName="fk_addresses_aud_revinfo"
+                             nullable="false"/>
+            </column>
+            <column name="revtype" type="smallint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="city" type="text"/>
+            <column name="street" type="text"/>
+            <column name="house" type="text"/>
+        </createTable>
+
+        <createTable tableName="stores_aud">
+            <column name="id" type="int">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="rev" type="int">
+                <constraints primaryKey="true"
+                             referencedTableName="revinfo"
+                             referencedColumnNames="rev"
+                             foreignKeyName="fk_stores_aud_revinfo"
+                             nullable="false"/>
+            </column>
+            <column name="revtype" type="smallint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="text"/>
+            <column name="description" type="text"/>
+        </createTable>
+
+        <createTable tableName="products_aud">
+            <column name="id" type="int">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="rev" type="int">
+                <constraints primaryKey="true"
+                             referencedTableName="revinfo"
+                             referencedColumnNames="rev"
+                             foreignKeyName="fk_products_aud_revinfo"
+                             nullable="false"/>
+            </column>
+            <column name="revtype" type="smallint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="store_id" type="int"/>
+            <column name="name" type="text"/>
+            <column name="description" type="text"/>
+            <column name="amount" type="int"/>
+            <column name="price" type="float"/>
+        </createTable>
+
+        <createTable tableName="product_categories_aud">
+            <column name="rev" type="int">
+                <constraints referencedTableName="revinfo"
+                             referencedColumnNames="rev"
+                             foreignKeyName="fk_product_categories_aud_revinfo"
+                             nullable="false"/>
+            </column>
+            <column name="revtype" type="smallint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="product_id" type="int"/>
+            <column name="categories" type="int"/>
+        </createTable>
+
+        <createTable tableName="orders_aud">
+            <column name="id" type="int">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="rev" type="int">
+                <constraints primaryKey="true"
+                             referencedTableName="revinfo"
+                             referencedColumnNames="rev"
+                             foreignKeyName="fk_orders_aud_revinfo"
+                             nullable="false"/>
+            </column>
+            <column name="revtype" type="smallint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="customer_id" type="int"/>
+            <column name="address_id" type="int"/>
+        </createTable>
+
+        <createTable tableName="product_count_order_aud">
+            <column name="rev" type="int">
+                <constraints referencedTableName="revinfo"
+                             referencedColumnNames="rev"
+                             foreignKeyName="fk_product_count_order_aud_revinfo"
+                             nullable="false"/>
+            </column>
+            <column name="revtype" type="smallint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="order_id" type="int"/>
+            <column name="product_id" type="int"/>
+            <column name="count" type="int"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="Create hibernate sequence" author="postgres">
+        <createSequence sequenceName="hibernate_sequence"/>
+    </changeSet>
+
+</databaseChangeLog>
