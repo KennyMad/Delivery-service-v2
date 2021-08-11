@@ -10,15 +10,15 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 
 @Configuration
 @SpringBootApplication
-@ComponentScan("com.company.service")
-@ComponentScan("com.company.controller")
-@ComponentScan("com.company.exception.handler")
+@ComponentScan("com.company")
 @EntityScan("com.company.models")
 @EnableJpaRepositories("com.company.repository")
+@EnableScheduling
 public class Config {
 
     @Bean
