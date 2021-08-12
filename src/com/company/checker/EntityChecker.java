@@ -28,7 +28,7 @@ public class EntityChecker {
     public void checkEntities(){
         Arrays.stream(fileUtil.getFolders()).forEach(folder -> {
             CheckThread thread = applicationContext.getBean(CheckThread.class);
-            thread.setFolderPath(fileUtil.getRootFolder() + File.separator + folder);
+            thread.setFolderPath(folder);
             thread.start();
         });
     }

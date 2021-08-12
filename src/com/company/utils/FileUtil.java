@@ -48,9 +48,9 @@ public class FileUtil {
         }
     }
 
-    public Object read(String path) throws Throwable{
-        String[] directories = path.replace('\\', ' ').split(" ");
-        switch (directories[directories.length - 2]){
+    public Object read(String folderName) throws Throwable{
+        String path = rootFolder + File.separator + folderName;
+        switch (folderName.split(" ")[0]){
             case "Store":
                 return objectGenerator.generate(path, Store.class);
             case "Product":
@@ -61,6 +61,14 @@ public class FileUtil {
                 return objectGenerator.generate(path, Customer.class);
         }
         return null;
+    }
+
+    public void delete(Class<?> objectClass, int id){
+       File file = new File(rootFolder + File.separator + objectClass.getSimpleName() + " id_" + id);
+       if (file.exists()){
+           new File(file.getPath() + File.separator + "object.json").delete();
+           file.delete();
+       }
     }
 
     public String[] getFolders(){
