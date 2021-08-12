@@ -1,11 +1,14 @@
 package com.company.mapper;
 
+import com.company.mapper.decorator.ProductMapperDecorator;
 import com.company.models.DTO.ProductDto;
 import com.company.models.Product;
+import org.mapstruct.DecoratedWith;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-@Mapper
+@Mapper(componentModel = "spring")
+@DecoratedWith(ProductMapperDecorator.class)
 public interface ProductMapper {
 
     @Mapping(source = "categories", target = "categoryList")
